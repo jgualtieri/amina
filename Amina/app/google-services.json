@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "318663839137",
+    "project_id": "firebase-amina"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:318663839137:android:6af28309300ec9c0",
+        "android_client_info": {
+          "package_name": "edu.dartmouth.cs.jgualtieri.amina"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "318663839137-6tcbf5nd3hjlflun4c5uv4k68sgop6s5.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "318663839137-4v7pdtv3qjmptanlbikoo3mvregf66r6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.dartmouth.cs.jgualtieri.amina",
+            "certificate_hash": "d0b6dcd6dfb91bbf802f63848b0ce750ff208923"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMEpb8JG0Igk5UeeflDg2lzTyrVlcgJDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
