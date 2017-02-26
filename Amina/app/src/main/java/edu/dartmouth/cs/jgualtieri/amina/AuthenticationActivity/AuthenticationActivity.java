@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -35,6 +36,17 @@ public class AuthenticationActivity extends AppCompatActivity
         setContentView(R.layout.activity_authentication);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (settings.getBoolean("loginScreen", false)){
+            Intent resultIntent = new Intent();
+            setResult(Activity.RESULT_OK, resultIntent);
+
+            Toast.makeText(this, "Welcome " + settings.getString("name", ""), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -108,6 +120,7 @@ public class AuthenticationActivity extends AppCompatActivity
 
             Intent resultIntent = new Intent();
             setResult(Activity.RESULT_OK, resultIntent);
+            Toast.makeText(this, "Welcome " + acct.getDisplayName(), Toast.LENGTH_SHORT).show();
             finish();
 
         } else {

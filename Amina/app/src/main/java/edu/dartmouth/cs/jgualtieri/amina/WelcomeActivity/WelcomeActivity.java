@@ -13,6 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class WelcomeActivity extends AppCompatActivity implements View.OnClickListener{
@@ -34,19 +39,29 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void onClick(View view){
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
 
         switch (view.getId()){
 
             case (R.id.welcomeContinue):
-                Log.d("testing", "continue clicked");
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor editor = settings.edit();
                 editor.putBoolean("welcomeStatus", true);
+
+                String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                Log.d("prompt", "timestamp set by welcome: " + timeStamp);
+                editor.putString("timestamp", timeStamp);
+                editor.commit();
 
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
                 break;
+
+
+
+
+
+                //if (date != null && );
         }
     }
 
