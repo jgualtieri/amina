@@ -1,5 +1,6 @@
 package edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -92,29 +93,26 @@ public class AuthenticationActivity extends AppCompatActivity
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d("tag", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            Log.d("signin", "successful");
+
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("signin", acct.getId());
-            Log.d("signin", acct.getDisplayName());
 
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("signedIn", true);
             editor.putString("name", acct.getDisplayName());
             editor.putString("id", acct.getId());
+            editor.putBoolean("loginScreen", true);
             editor.commit();
 
-            Log.d("test", settings.getBoolean("signedIn", false)+" : in Auth");
+            Intent resultIntent = new Intent();
+            setResult(Activity.RESULT_OK, resultIntent);
+            finish();
 
-            //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
-            //updateUI(true);
         } else {
             Log.d("signin", "not successful");
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
+
         }
     }
 
@@ -124,5 +122,4 @@ public class AuthenticationActivity extends AppCompatActivity
         // be available.
         Log.d("tag", "onConnectionFailed:" + connectionResult);
     }
-
 }

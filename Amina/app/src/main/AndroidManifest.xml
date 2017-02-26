@@ -22,6 +22,10 @@
         <activity
             android:name=".PromptActivity.PromptActivity"
             android:label="@string/title_activity_prompt"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WelcomeActivity.WelcomeActivity"
+            android:label="@string/title_activity_welcome"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
