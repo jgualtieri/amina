@@ -1,7 +1,9 @@
 package edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -24,6 +26,7 @@ public class AuthenticationActivity extends AppCompatActivity
 
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
+    private boolean mInSignInFlow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,15 @@ public class AuthenticationActivity extends AppCompatActivity
         signInButton.setSize(SignInButton.SIZE_STANDARD);
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mInSignInFlow) {
+            // auto sign in
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
@@ -87,6 +98,17 @@ public class AuthenticationActivity extends AppCompatActivity
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Log.d("signin", acct.getId());
+            Log.d("signin", acct.getDisplayName());
+
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("signedIn", true);
+            editor.putString("name", acct.getDisplayName());
+            editor.putString("id", acct.getId());
+            editor.commit();
+
+            Log.d("test", settings.getBoolean("signedIn", false)+" : in Auth");
+
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
             //updateUI(true);
         } else {
