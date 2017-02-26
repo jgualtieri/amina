@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Amina</string>
     <string name="title_activity_authentication">AuthenticationActivity</string>
+    <string name="title_activity_prompt">PromptActivity</string>
 </resources>
