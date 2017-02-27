@@ -3,8 +3,11 @@
     <string name="title_activity_authentication">AuthenticationActivity</string>
     <string name="title_activity_prompt">PromptActivity</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
-    <string name="welcome_title">Welcome to Amina.</string>
+
+    <string name="auth_welcome">Welcome to Amina.</string>
     <string name="welcome_description">Amina provides life-saving instructions and guidance when you need it the most.
-    Press "Continue" to get started.</string>
+    Press \"Continue\" to get started.</string>
+
     <string name="title_activity_maps">Map</string>
+
 </resources>
