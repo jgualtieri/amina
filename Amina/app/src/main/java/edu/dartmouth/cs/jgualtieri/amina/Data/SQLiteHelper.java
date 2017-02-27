@@ -19,11 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Constants.COLUMN_USER_ID + " text, "
             + Constants.COLUMN_LOCATION_X + " float, "
             + Constants.COLUMN_LOCATION_Y + " float, "
-            + Constants.COLUMN_DATE_TIME + " datetime not null, "
-            + Constants.COLUMN_IS_SAFE + " varchar, "
-            + Constants.COLUMN_HAS_FOOD_WATER + " varchar, "
-            + Constants.COLUMN_HAS_SHELTER + " varchar, "
-            + Constants.COLUMN_HAS_ELECTRICITY + " varchar );";
+            + Constants.COLUMN_DATE_TIME + " datetime not null );";
 
     // Constructor
     public SQLiteHelper(Context context) {
