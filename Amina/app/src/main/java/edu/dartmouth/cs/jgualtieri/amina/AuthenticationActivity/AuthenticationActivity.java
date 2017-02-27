@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -46,11 +44,10 @@ public class AuthenticationActivity extends AppCompatActivity
             finish();
         }
 
-
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("318663839137-6tcbf5nd3hjlflun4c5uv4k68sgop6s5.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -124,9 +121,14 @@ public class AuthenticationActivity extends AppCompatActivity
             finish();
 
         } else {
-            Log.d("signin", "not successful");
+            result.getStatus().toString();
+            Toast.makeText(this, "Unable to sign in.", Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     @Override
