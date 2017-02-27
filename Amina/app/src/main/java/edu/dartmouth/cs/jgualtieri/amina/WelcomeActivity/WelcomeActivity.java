@@ -57,10 +57,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
 
-
-
-
-
                 //if (date != null && );
         }
     }

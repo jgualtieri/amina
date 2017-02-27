@@ -39,14 +39,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
 
-        if (!preferences.getBoolean(WELCOMESTATUS, false)){
-            welcome();
-        }
-
-        if (preferences.getBoolean(WELCOMESTATUS, false)){
-            signIn();
-        }
-
+        signIn();
 
         setContentView(R.layout.activity_main);
 
@@ -56,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
-            case WELCOME:
-                //you just got back from activity B - deal with resultCode
-                //use data.getExtra(...) to retrieve the returned data
-                signIn();
-                break;
             case LOGIN:
                 Log.d("prompt", "login reached");
                 Date timestampDate;
@@ -103,11 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
         }
-    }
-
-    public void welcome(){
-        Intent intent = new Intent(this, WelcomeActivity.class);
-        startActivityForResult(intent, WELCOME);
     }
 
     public void signIn(){

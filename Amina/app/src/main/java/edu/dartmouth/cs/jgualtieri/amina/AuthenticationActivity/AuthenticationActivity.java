@@ -124,7 +124,8 @@ public class AuthenticationActivity extends AppCompatActivity
             finish();
 
         } else {
-            Log.d("signin", "not successful");
+            result.getStatus().toString();
+            //Log.d("signin", "not successful");
 
         }
     }
