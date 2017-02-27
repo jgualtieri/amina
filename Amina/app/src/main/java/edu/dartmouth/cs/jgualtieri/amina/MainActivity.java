@@ -1,5 +1,6 @@
 package edu.dartmouth.cs.jgualtieri.amina;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -15,9 +16,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity.AuthenticationActivity;
+import edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapsActivity;
 import edu.dartmouth.cs.jgualtieri.amina.WelcomeActivity.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static Activity activity;
 
     private String SIGNEDINSTATUS = "signedIn";
     private String WELCOMESTATUS = "welcomeStatus";
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final int WELCOME = 0;
     private final int LOGIN = 1;
-    private final int PROMPT = 2;
+    private final int MAP = 2;
 
     private final int PROMPTTIMELIMIT = 24 * 60;
 
@@ -37,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
+        activity = this;
 
         signIn();
 
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
 
+                map();
                 break;
         }
     }
@@ -95,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(){
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivityForResult(intent, LOGIN);
+    }
+
+    public void map(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivityForResult(intent, MAP);
     }
 
 }
