@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -45,8 +43,6 @@ public class AuthenticationActivity extends AppCompatActivity
             Toast.makeText(this, "Welcome " + settings.getString("name", ""), Toast.LENGTH_SHORT).show();
             finish();
         }
-
-
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -128,6 +124,10 @@ public class AuthenticationActivity extends AppCompatActivity
             //Log.d("signin", "not successful");
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
     @Override

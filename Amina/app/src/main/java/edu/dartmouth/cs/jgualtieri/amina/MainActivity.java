@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity.AuthenticationActivity;
-import edu.dartmouth.cs.jgualtieri.amina.PromptActivity.PromptActivity;
 import edu.dartmouth.cs.jgualtieri.amina.WelcomeActivity.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -96,11 +95,6 @@ public class MainActivity extends AppCompatActivity {
     public void signIn(){
         Intent intent = new Intent(this, AuthenticationActivity.class);
         startActivityForResult(intent, LOGIN);
-    }
-
-    public void prompt(){
-        Intent intent = new Intent(this, PromptActivity.class);
-        startActivityForResult(intent, PROMPT);
     }
 
 }
