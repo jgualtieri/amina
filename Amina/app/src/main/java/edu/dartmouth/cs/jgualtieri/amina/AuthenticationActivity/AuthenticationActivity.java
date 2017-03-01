@@ -92,6 +92,21 @@ public class AuthenticationActivity extends AppCompatActivity
             case (R.id.sign_in_button):
                 signIn();
                 break;
+
+            case (R.id.bypassButton):
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("signedIn", true);
+                editor.putString("name", "John Doe");
+                editor.putString("id", "0000000000000000000000000000000000");
+                editor.putBoolean("loginScreen", true);
+                editor.commit();
+
+                Intent resultIntent = new Intent();
+                setResult(Activity.RESULT_OK, resultIntent);
+                Toast.makeText(this, "Welcome " + settings.getString("name", ""), Toast.LENGTH_SHORT).show();
+                finish();
+                break;
         }
 
     }
