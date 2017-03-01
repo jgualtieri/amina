@@ -32,16 +32,6 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Update the shared preferences recording that the Welcome Activity has been
-        // launched - that way the activity will not be launched again the next time
-        // a user opens the app
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-        if (settings.getBoolean("welcomeStatus", false)){
-            Intent resultIntent = new Intent();
-            setResult(Activity.RESULT_OK, resultIntent);
-            finish();
-        }
-
     }
 
     // Called when the user presses the continue button
@@ -51,20 +41,24 @@ public class WelcomeActivity extends AppCompatActivity implements View.OnClickLi
 
         switch (view.getId()){
 
+            // if continue clicked
             case (R.id.welcomeContinue):
+
+                // set welcome status to true so it doesn't open again
                 editor.putBoolean("welcomeStatus", true);
 
+                // set initial timestamp into sharedPreferences
                 String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                Log.d("prompt", "timestamp set by welcome: " + timeStamp);
                 editor.putString("timestamp", timeStamp);
                 editor.commit();
 
+                // set intent result
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
+
+                // finish the activity
                 finish();
                 break;
-
-                //if (date != null && );
         }
     }
 

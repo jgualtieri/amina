@@ -23,79 +23,56 @@ public class MainActivity extends AppCompatActivity {
 
     public static Activity activity;
 
-    private String SIGNEDINSTATUS = "signedIn";
+    // access screen status
     private String WELCOMESTATUS = "welcomeStatus";
     private String PROMPTSTUATUS = "promptStatus";
 
+    // intent number
     private final int WELCOME = 0;
     private final int LOGIN = 1;
     private final int MAP = 2;
 
-    private final int PROMPTTIMELIMIT = 24 * 60;
-
+    // save shared preferences
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // get shared prefereces
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         editor = preferences.edit();
         activity = this;
 
+        // launch sign in authentication activity
         signIn();
 
-        setContentView(R.layout.activity_main);
+        // check if first time opening for welcome screen
+        if(!preferences.getBoolean(WELCOMESTATUS, false)){
+            welcome();
+        }
 
-        // testing
+        setContentView(R.layout.activity_main);
     }
 
+    // on previous activity finishing
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
+
+            // after login screen finishes
             case LOGIN:
-                Log.d("prompt", "login reached");
-                Date timestampDate;
-                Date currentDate;
 
-                String date = preferences.getString("timestamp", null);
-                Log.d("prompt", "timestamp: " + date);
-
-                if (!preferences.getBoolean(PROMPTSTUATUS, false)){
-                    // launchPrompt first time
-                    editor.putBoolean(PROMPTSTUATUS, true);
-                    editor.commit();
-                }
-
-                if (date != null) {
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-                    try {
-                        timestampDate = dateFormat.parse(date);
-
-                        String currentDateString = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                        currentDate = dateFormat.parse(currentDateString);
-                        Log.d("prompt", timestampDate.toString());
-                        Log.d("prompt", "current date: " + currentDate.toString());
-
-                        long diff = currentDate.getTime() - timestampDate.getTime();
-                        long diffMinutes = diff / (60 * 1000) % 60;
-
-
-                        Log.d("prompt", "difference in hours  " + diffMinutes);
-                        if (diffMinutes > PROMPTTIMELIMIT){
-                            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                            editor.putString("timestamp", timeStamp);
-                            //prompt();
-                        }
-
-                    } catch (ParseException pe){
-                        pe.printStackTrace();
-                    }
-                }
-
+                // launch map activity
                 map();
                 break;
         }
+    }
+
+    public void welcome(){
+        Intent intent = new Intent(this, WelcomeActivity.class);
+        startActivityForResult(intent, WELCOME);
     }
 
     public void signIn(){

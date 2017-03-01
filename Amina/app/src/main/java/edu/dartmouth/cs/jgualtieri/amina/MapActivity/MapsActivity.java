@@ -1,6 +1,8 @@
 package edu.dartmouth.cs.jgualtieri.amina.MapActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -13,10 +15,17 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    // time limit to open
+    private final int PROMPTTIMELIMIT = 24 * 60;
 
     private GoogleMap mMap;
 
@@ -24,10 +33,53 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        // get shared preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // save timestamps
+        Date timestampDate;
+        Date currentDate;
+
+        // get timestamp
+        String date = preferences.getString("timestamp", null);
+
+        // if saved timestamp exists
+        if (date != null) {
+
+            // create date format
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+            try {
+
+                // parse saved timestamp
+                timestampDate = dateFormat.parse(date);
+
+                // parse current time
+                String currentDateString = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                currentDate = dateFormat.parse(currentDateString);
+
+                // check the time difference in minutes
+                long diff = currentDate.getTime() - timestampDate.getTime();
+                long diffMinutes = diff / (60 * 1000) % 60;
+
+                // if the time difference is greater than 24 hours
+                if (diffMinutes > PROMPTTIMELIMIT){
+
+                    // update timestamp
+                    String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                    editor.putString("timestamp", timeStamp);
+                }
+
+            } catch (ParseException pe){
+                pe.printStackTrace();
+            }
+        }
     }
 
 
@@ -47,6 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng hanover = new LatLng(43.7, -72.2);
 
+        // test code to show shit on mapscreen
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(hanover)
                 .zoom(10)
@@ -67,8 +120,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+
+    // override the back button so user can't go to MainActivity
     @Override
     public void onBackPressed() {
+        // finish all apps
         finishAffinity();
     }
 }
