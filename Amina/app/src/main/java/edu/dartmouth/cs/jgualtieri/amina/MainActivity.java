@@ -6,17 +6,9 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.Auth;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity.AuthenticationActivity;
-import edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapsActivity;
+import edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapActivity;
 import edu.dartmouth.cs.jgualtieri.amina.WelcomeActivity.WelcomeActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -81,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void map(){
-        Intent intent = new Intent(this, MapsActivity.class);
+        Intent intent = new Intent(this, MapActivity.class);
         startActivityForResult(intent, MAP);
     }
 
