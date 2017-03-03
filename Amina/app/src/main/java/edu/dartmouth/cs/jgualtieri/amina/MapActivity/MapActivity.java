@@ -1,11 +1,13 @@
 package edu.dartmouth.cs.jgualtieri.amina.MapActivity;
 
+import android.app.FragmentManager;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +49,10 @@ public class MapActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        // set first fragment as selected
+        itemSelected(R.id.stressMeter);
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -56,8 +62,36 @@ public class MapActivity extends AppCompatActivity
         int id = item.getItemId();
 
         // call function to handle switching
-        //itemSelected(id);
+        itemSelected(id);
 
         return true;
+    }
+
+    public void itemSelected(int itemId){
+
+        // get the itemID of the item clicked
+        int id = itemId;
+
+        FragmentManager fragmentManager = getFragmentManager();
+
+        // if first item is selected, open stress meter fragment
+        if (id == R.id.stressMeter) {
+
+            // replace container with ImageFragment
+            fragmentManager.beginTransaction().replace(R.id.content_main,
+                    new ImageRequestFragment()).commit();
+        }
+
+        // if second item selected, open results fragment
+        else if (id == R.id.results) {
+
+            // replace container with ResultsFragment
+            fragmentManager.beginTransaction().replace(R.id.content_main,
+                    new ResultsFragment()).commit();
+        }
+
+        // close the drawer
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
     }
 }
