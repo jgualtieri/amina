@@ -47,6 +47,10 @@
             android:name=".MapActivity.MapActivity"
             android:label="@string/title_activity_map"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".PinEntry.PinEntryActivity"
+            android:label="@string/title_activity_pin_entry"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

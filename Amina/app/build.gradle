@@ -10,7 +10,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //multiDexEnabled true
+        renderscriptTargetApi 24
+        renderscriptSupportModeEnabled true
     }
 
 
@@ -36,6 +37,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.google.android.gms:play-services-fitness:10.0.1'
+    compile 'com.wonderkiln:blurkit:1.0.0'
     testCompile 'junit:junit:4.12'
 }
 

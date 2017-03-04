@@ -6,12 +6,84 @@
     android:layout_margin="0px">
 
 
-    <fragment
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:id="@+id/map"
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mainmenu"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:foreground="@drawable/dimming" >
+        <fragment
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="0px" />
+
+
+    </FrameLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="0px" />
+        android:weightSum="5"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/dismissButtonOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <RadioGroup
+            android:id="@+id/safetyRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight=".5"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/greenMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@mipmap/ic_launcher"
+                android:button="@null"
+                android:tag="1" />
+
+            <RadioButton
+                android:id="@+id/yellowMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:button="@null"
+                android:background="@mipmap/ic_launcher"
+                android:tag="2" />
+            <RadioButton
+                android:id="@+id/redMap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:button="@null"
+                android:background="@mipmap/ic_launcher"
+                android:tag="3" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/dismissButtonTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"/>
+
+    </LinearLayout>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

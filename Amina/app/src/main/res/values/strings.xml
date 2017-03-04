@@ -17,5 +17,6 @@
     <string name="server_client_id">318663839137-6tcbf5nd3hjlflun4c5uv4k68sgop6s5.apps.googleusercontent.com </string>
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_testing">testing</string>
+    <string name="title_activity_pin_entry">PinEntryActivity</string>
 
 </resources>

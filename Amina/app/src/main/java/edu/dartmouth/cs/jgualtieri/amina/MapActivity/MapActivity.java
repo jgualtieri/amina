@@ -106,4 +106,8 @@ public class MapActivity extends AppCompatActivity
 
     public void onFragmentInteraction(Uri uri){
     }
+
+    @Override
+    public void onBackPressed() {
+    }
 }
