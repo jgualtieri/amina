@@ -34,6 +34,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
     // string to reference boolean of whether prompt has been shown or not
     private final String PROMPT = "prompt";
 
+    // prompt variables
     private final int PROMPTTIMELIMIT = 24 * 60;
     private final int PROMPTINT = 4;
 
@@ -85,10 +86,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
             @Override
             public void onClick(View view) {
 
+                // if user clicks on fab, create new pin
                 createPin();
-
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
             }
         });
 
@@ -107,6 +106,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
             editor.commit();
         }
 
+        // if its been 24 hours
         if (timeHasElapsed()) {
             createPin();
         }
@@ -115,12 +115,15 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         layout_MainMenu = (FrameLayout) view.findViewById(R.id.mainmenu);
         layout_MainMenu.getForeground().setAlpha( 0);
 
+        // get Safety radio button group
         safetyOptions = (RadioGroup) view.findViewById(R.id.safetyRadioGroup);
 
+        // if use clicks on on one of the safety options
         safetyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
         {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+                // launch pin entry activity, pass in safety status
                 switch(checkedId) {
                     case R.id.greenMap:
                         launchPinEntry(1);
@@ -135,6 +138,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
             }
         });
 
+        // get hidden dismiss buttons
         dismissButtonOne = (Button) view.findViewById(R.id.dismissButtonOne);
         dismissButtonOne.setOnClickListener(this);
         dismissButtonTwo = (Button) view.findViewById(R.id.dismissButtonTwo);
@@ -167,10 +171,12 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
                     }
                 });
 
+        // create dialog
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
 
+    // check if 24 hours has elapsed
     public Boolean timeHasElapsed(){
         Date timestampDate;
         Date currentDate;
@@ -182,13 +188,11 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
 
             String currentDateString = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
             currentDate = dateFormat.parse(currentDateString);
-            Log.d("prompt", timestampDate.toString());
-            Log.d("prompt", "current date: " + currentDate.toString());
+
             long diff = currentDate.getTime() - timestampDate.getTime();
             long diffMinutes = diff / (60 * 1000) % 60;
 
 
-            Log.d("prompt", "difference in mins: " + diffMinutes);
             if (diffMinutes > PROMPTTIMELIMIT) {
                 return true;
             }
@@ -199,6 +203,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         return false;
     }
 
+    // create a new pin
     public void createPin(){
         showSafetyOptions();
         String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
@@ -206,20 +211,25 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         editor.commit();
     }
 
+    // dim map
     public void setDim(){
         layout_MainMenu.getForeground().setAlpha(180);
     }
 
+    // brighten map
     public void unDim(){
         layout_MainMenu.getForeground().setAlpha(0);
     }
 
+    // launch pin entry activity
     public void launchPinEntry(int checkedBox){
         Intent intent = new Intent(MainActivity.activity, PinEntryActivity.class);
         intent.putExtra("safetyStatus", checkedBox);
+        Log.d("safetyStatus", checkedBox+"");
         startActivityForResult(intent, PROMPTINT);
     }
 
+    // show safety radio group
     public void showSafetyOptions(){
         setDim();
         safetyOptions.setVisibility(View.VISIBLE);
@@ -227,6 +237,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         dismissButtonTwo.setVisibility(View.VISIBLE);
     }
 
+    // hide safety radio group
     public void hideSafetyOptions(){
         unDim();
         safetyOptions.setVisibility(View.INVISIBLE);
@@ -236,13 +247,25 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         dismissButtonTwo.setBackgroundColor(Color.TRANSPARENT);
     }
 
+    // if user clicks on hidden dismiss buttons
     public void onClick(View view){
         hideSafetyOptions();
 
-        Snackbar.make(view, "hide button clicked", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+//        Snackbar.make(view, "hide button clicked", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
     }
 
+    // on previous activity finishing
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+
+            // after pin entry finishes
+            case PROMPTINT:
+                hideSafetyOptions();
+                break;
+        }
+    }
 
     public void onButtonPressed(Uri uri) {
         if (interactionListener != null) {

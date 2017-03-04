@@ -13,6 +13,61 @@
     tools:context="edu.dartmouth.cs.jgualtieri.amina.PinEntry.PinEntryActivity"
     tools:showIn="@layout/activity_pin_entry">
 
-    
+    <RadioGroup
+        android:id="@+id/safetyRadioGroupPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".5"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/greenPinEntry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@mipmap/ic_launcher"
+            android:button="@null"
+            android:tag="1" />
+
+        <RadioButton
+            android:id="@+id/yellowPinEntry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:button="@null"
+            android:background="@mipmap/ic_launcher"
+            android:tag="2" />
+        <RadioButton
+            android:id="@+id/redPinEntry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:button="@null"
+            android:background="@mipmap/ic_launcher"
+            android:tag="3" />
+    </RadioGroup>
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Hashtag (remove this after adding label)"
+        android:id="@+id/hashtagEditText"
+        android:layout_below="@+id/safetyRadioGroupPin"/>
+
+    <EditText
+        android:id="@+id/commentsEditText"
+        android:layout_width="wrap_content"
+        android:layout_below="@+id/hashtagEditText"
+        android:layout_height="wrap_content"
+        android:hint="Comment (remove this after adding label)"/>
+
 
 </RelativeLayout>
+
