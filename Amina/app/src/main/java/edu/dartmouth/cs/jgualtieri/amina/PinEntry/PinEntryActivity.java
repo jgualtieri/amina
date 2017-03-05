@@ -7,6 +7,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Layout;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -46,9 +53,13 @@ public class PinEntryActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, hashtags);
 
-        AutoCompleteTextView textView = (AutoCompleteTextView)
-                findViewById(R.id.hashtagEditText);
+
+
+        final MultiAutoCompleteTextView textView = (MultiAutoCompleteTextView) findViewById(R.id.hashtagEditText);
         textView.setAdapter(adapter);
+        textView.setThreshold(1);
+        textView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+        
     }
 
     // create save button in action bar
