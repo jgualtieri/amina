@@ -100,7 +100,7 @@
             android:textColor="@color/red"
 
             android:text="Hashtags"/>
-        <AutoCompleteTextView
+        <MultiAutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="46sp"
