@@ -27,7 +27,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:weightSum="5"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/dismissButtonOne"
@@ -58,7 +60,7 @@
             android:gravity="center"
             android:id="@+id/safetyRadioGroupSubtitle"
 
-            android:textSize="18sp"
+            android:textSize="17sp"
             android:textColor="@color/white"
 
             android:text="Let's start by telling us how safe you feel."/>
@@ -69,6 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="30sp"
             android:layout_weight=".5"
             android:orientation="horizontal">
 
@@ -77,32 +80,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@drawable/green_rect"
-                android:button="@null"
-                android:scaleX="0.7"
+                android:button="@drawable/green_selector"
                 android:tag="1"/>
 
             <RadioButton
                 android:id="@+id/yellowMap"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:button="@null"
-                android:background="@drawable/yellow_rect"
-                android:scaleX="0.7"
+                android:button="@drawable/yellow_selector"
                 android:tag="2" />
             <RadioButton
                 android:id="@+id/redMap"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_weight="1"
-                android:button="@null"
-                android:background="@drawable/red_rect"
-                android:scaleX="0.7"
+                android:button="@drawable/red_selector"
                 android:tag="3" />
         </RadioGroup>
 

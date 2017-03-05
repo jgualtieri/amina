@@ -131,14 +131,17 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
                 // launch pin entry activity, pass in safety status
                 switch(checkedId) {
                     case R.id.greenMap:
+                        safetyOptions.check(R.id.greenMap);
                         launchPinEntry(1);
                         safetyOptions.clearCheck();
                         break;
                     case R.id.yellowMap:
+                        safetyOptions.check(R.id.yellowMap);
                         launchPinEntry(2);
                         safetyOptions.clearCheck();
                         break;
                     case R.id.redMap:
+                        safetyOptions.check(R.id.redMap);
                         launchPinEntry(3);
                         safetyOptions.clearCheck();
                         break;
