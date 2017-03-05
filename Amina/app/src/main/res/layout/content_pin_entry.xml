@@ -29,7 +29,8 @@
             android:layout_gravity="start"
             android:gravity="center"
             android:id="@+id/pinEntrySafetyLabel"
-            android:textSize="15sp"
+            android:textSize="16sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/red"
 
 
@@ -39,7 +40,7 @@
             android:id="@+id/safetyRadioGroupPin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="60sp"
+            android:layout_marginStart="70sp"
             android:layout_gravity="end"
             android:gravity="end"
             android:scaleX="1"
@@ -89,7 +90,7 @@
             android:layout_gravity="start"
             android:gravity="center_vertical"
             android:id="@+id/row2"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/red"
 
@@ -115,8 +116,9 @@
             android:layout_gravity="start"
             android:gravity="center_vertical"
             android:id="@+id/row3"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="@color/red"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
 
             android:text="Note"/>
         <EditText
