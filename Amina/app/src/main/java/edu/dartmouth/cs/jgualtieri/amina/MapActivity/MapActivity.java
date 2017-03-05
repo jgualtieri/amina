@@ -3,6 +3,7 @@ package edu.dartmouth.cs.jgualtieri.amina.MapActivity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class MapActivity extends AppCompatActivity
@@ -109,5 +111,9 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
     }
 }

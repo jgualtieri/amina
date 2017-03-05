@@ -132,12 +132,15 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
                 switch(checkedId) {
                     case R.id.greenMap:
                         launchPinEntry(1);
+                        safetyOptions.clearCheck();
                         break;
                     case R.id.yellowMap:
                         launchPinEntry(2);
+                        safetyOptions.clearCheck();
                         break;
                     case R.id.redMap:
                         launchPinEntry(3);
+                        safetyOptions.clearCheck();
                         break;
                 }
             }

@@ -18,5 +18,6 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_testing">testing</string>
     <string name="title_activity_pin_entry">PinEntryActivity</string>
+    <string name="title_activity_content">ContentActivity</string>
 
 </resources>

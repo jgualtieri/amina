@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
             welcome();
         }
 
+        // back button base case
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
     }
 
