@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -54,6 +55,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
     private RadioGroup safetyOptions;
     private Button dismissButtonOne;
     private Button dismissButtonTwo;
+    private TextView safetyTitle;
+    private TextView safetySubtitle;
 
     public MapsFragment() {
     }
@@ -117,6 +120,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
 
         // get Safety radio button group
         safetyOptions = (RadioGroup) view.findViewById(R.id.safetyRadioGroup);
+        safetyTitle = (TextView) view.findViewById(R.id.safetyRadioGroupTitle);
+        safetySubtitle = (TextView) view.findViewById(R.id.safetyRadioGroupSubtitle);
 
         // if use clicks on on one of the safety options
         safetyOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
@@ -235,6 +240,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         safetyOptions.setVisibility(View.VISIBLE);
         dismissButtonOne.setVisibility(View.VISIBLE);
         dismissButtonTwo.setVisibility(View.VISIBLE);
+        safetyTitle.setVisibility(View.VISIBLE);
+        safetySubtitle.setVisibility(View.VISIBLE);
     }
 
     // hide safety radio group
@@ -245,6 +252,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         dismissButtonOne.setBackgroundColor(Color.TRANSPARENT);
         dismissButtonTwo.setVisibility(View.INVISIBLE);
         dismissButtonTwo.setBackgroundColor(Color.TRANSPARENT);
+        safetyTitle.setVisibility(View.INVISIBLE);
+        safetySubtitle.setVisibility(View.INVISIBLE);
     }
 
     // if user clicks on hidden dismiss buttons

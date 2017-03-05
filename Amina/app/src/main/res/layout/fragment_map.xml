@@ -35,6 +35,35 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/safetyRadioGroupTitle"
+
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+
+            android:text="What's your status?"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/safetyRadioGroupSubtitle"
+
+            android:textSize="18sp"
+            android:textColor="@color/white"
+
+            android:text="Let's start by telling us how safe you feel."/>
+
+
         <RadioGroup
             android:id="@+id/safetyRadioGroup"
             android:layout_width="match_parent"
@@ -50,9 +79,10 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@mipmap/ic_launcher"
+                android:background="@drawable/green_rect"
                 android:button="@null"
-                android:tag="1" />
+                android:scaleX="0.7"
+                android:tag="1"/>
 
             <RadioButton
                 android:id="@+id/yellowMap"
@@ -60,9 +90,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:padding="5dp"
                 android:button="@null"
-                android:background="@mipmap/ic_launcher"
+                android:background="@drawable/yellow_rect"
+                android:scaleX="0.7"
                 android:tag="2" />
             <RadioButton
                 android:id="@+id/redMap"
@@ -70,9 +100,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:padding="5dp"
                 android:button="@null"
-                android:background="@mipmap/ic_launcher"
+                android:background="@drawable/red_rect"
+                android:scaleX="0.7"
                 android:tag="3" />
         </RadioGroup>
 
