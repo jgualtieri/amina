@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <item
+        android:state_checked="true" >
+        <bitmap android:src="@drawable/green_rect_checked" android:gravity="start" />
+    </item>
+    <item
+        android:state_checked="false" >
+        <bitmap android:src="@drawable/green_rect" android:gravity="start" />
+    </item>
+</selector>
