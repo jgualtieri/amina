@@ -14,6 +14,21 @@ android {
         renderscriptSupportModeEnabled true
     }
 
+    sourceSets {
+        main {
+            res.srcDirs =
+                    [
+                            'src/main/res/layout/AuthenticationActivity',
+                            'src/main/res/layout/ContentActivity',
+                            'src/main/res/layout/MapActivity',
+                            'src/main/res/layout/PinEntry',
+                            'src/main/res/layout/WelcomeActivity',
+                            'src/main/res/layout',
+                            'src/main/res'
+                    ]
+        }
+    }
+
 
     buildTypes {
         release {

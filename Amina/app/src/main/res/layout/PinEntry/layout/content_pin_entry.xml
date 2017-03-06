@@ -34,7 +34,7 @@
             android:textColor="@color/red"
 
 
-            android:text="Safety"/>
+            android:text="@string/pin_entry_label_1"/>
 
         <RadioGroup
             android:id="@+id/safetyRadioGroupPin"
@@ -94,13 +94,13 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/red"
 
-            android:text="Hashtags"/>
+            android:text="@string/pin_entry_label_2"/>
         <MultiAutoCompleteTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="46sp"
             android:layout_gravity="end"
-            android:hint="Hashtag"
+            android:hint="@string/pin_entry_content_2"
             android:id="@+id/hashtagEditText"
             />
 
@@ -120,7 +120,7 @@
             android:textColor="@color/red"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
 
-            android:text="Note"/>
+            android:text="@string/pin_entry_label_3"/>
         <EditText
             android:id="@+id/commentsEditText"
             android:layout_gravity="end"
@@ -128,7 +128,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="80sp"
 
-            android:hint="Comment"/>
+            android:hint="@string/pin_entry_content_3"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -7,6 +7,14 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="pin_entry_label_1">Safety</string>
+    <string name="pin_entry_label_2">Hashtags</string>
+    <string name="pin_entry_label_3">Note</string>
+    <string name="pin_entry_content_1">Note</string>
+    <string name="pin_entry_content_2">#water, #electricity, #etc</string>
+    <string name="pin_entry_content_3">e.g. Beware of potholes!</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="auth_welcome">Welcome to Amina.</string>
