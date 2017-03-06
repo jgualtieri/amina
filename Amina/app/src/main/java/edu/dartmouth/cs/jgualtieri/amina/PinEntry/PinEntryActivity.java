@@ -36,17 +36,24 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import edu.dartmouth.cs.jgualtieri.amina.Data.Constants;
 import edu.dartmouth.cs.jgualtieri.amina.Data.Hashtag;
 import edu.dartmouth.cs.jgualtieri.amina.Data.Pin;
 import edu.dartmouth.cs.jgualtieri.amina.Data.PinHashtagDBHelper;
 import edu.dartmouth.cs.jgualtieri.amina.Data.SQLiteHelper;
+import edu.dartmouth.cs.jgualtieri.amina.Data.ServerUtilities;
+import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class PinEntryActivity extends AppCompatActivity
@@ -147,8 +154,10 @@ public class PinEntryActivity extends AppCompatActivity
                 } else {
                     Log.d(TAG, "Unable to successfully save pin.");
                 }
+                pin.setEntryId(pinEntryId);
 
                 // Parse out the hashtags from textView
+                ArrayList<Hashtag> hashtagList = new ArrayList<>();
                 String hashtagsString = hashTagTextView.getText() + "";
                 if (!hashtagsString.isEmpty()) {
                     hashtagsString = hashtagsString.replaceAll("\\s+", "");
@@ -171,9 +180,16 @@ public class PinEntryActivity extends AppCompatActivity
                             Log.d(TAG, "Unable to save hashtag with value = " +
                                     hashtagObject.getValue());
                         }
+                        hashtagList.add(hashtagObject);
                     }
                 }
 
+                // Create an object to pass to the datastore
+                PinHashtagCapsule pinHashtagCapsule = new PinHashtagCapsule(pin, hashtagList);
+                GCMAddAsync gcmAddAsync = new GCMAddAsync();
+                gcmAddAsync.execute(pinHashtagCapsule);
+
+                dbHelper.close();
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
                 finish();
@@ -247,5 +263,88 @@ public class PinEntryActivity extends AppCompatActivity
     protected void onStop() {
         googleApiClient.disconnect();
         super.onStop();
+    }
+
+    // Async task to upload saved Pin and Hashtags to GCM datastore
+    public static class GCMAddAsync extends android.os.AsyncTask<PinHashtagCapsule, Integer, String> {
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected String doInBackground(PinHashtagCapsule... params) {
+
+            // Retrieve the pin and the corresponding hashtags from the encapsulation,
+            // create a unique identifier for the datastore
+            Pin pin = params[0].getPin();
+            ArrayList<Hashtag> hashtags = params[0].getHashtags();
+            String entryId = pin.getUserId() + "_" + pin.getEntryId();
+
+            String uploadState = "";
+
+            // First, attempt to upload the pin to the datastore
+            try {
+
+                // Add the pin
+                Map<String, String> pinUpload = new HashMap<>();
+                pinUpload.put("entryId", entryId);
+                pinUpload.put("userId", pin.getUserId());
+                pinUpload.put("locationX", String.valueOf(pin.getLocationX()));
+                pinUpload.put("locationY", String.valueOf(pin.getLocationY()));
+                pinUpload.put("dateTime", pin.getDateTime().getTime().toString());
+                pinUpload.put("safetyStatus", String.valueOf(pin.getSafetyStatus()));
+                pinUpload.put("comment", String.valueOf(pin.getComment()));
+
+                ServerUtilities.post(Constants.SERVER_ADDRESS + "/add_pin", pinUpload);
+
+            } catch (IOException e) {
+                uploadState += "Pin upload failed... " + e.getCause() + "\n";
+                e.printStackTrace();
+                return uploadState;
+            }
+
+            // Next, attempt to upload the corresponding hashtags
+            try {
+
+                // Add the hashtags
+                for (Hashtag hashtag : hashtags) {
+
+                    Map<String, String> hashtagUpload = new HashMap<>();
+                    hashtagUpload.put("value", hashtag.getValue());
+                    hashtagUpload.put("associatedPin", entryId);
+
+                    ServerUtilities.post(Constants.SERVER_ADDRESS + "/add_hashtag", hashtagUpload);
+                }
+
+            } catch (IOException e) {
+                uploadState += "Hashtag upload failed... " + e.getCause() + "\n";
+                e.printStackTrace();
+                return uploadState;
+            }
+            uploadState += "Successfully uploaded pins and hashtags";
+            return uploadState;
+        }
+
+        // Update the user with the progess
+        @Override
+        protected void onPostExecute(String uploadResult) {
+            Toast.makeText(MainActivity.activity, uploadResult, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class PinHashtagCapsule {
+        Pin pin;
+        ArrayList<Hashtag> hashtags;
+
+        PinHashtagCapsule(Pin pin, ArrayList<Hashtag> hashtags) {
+            this.pin = pin;
+            this.hashtags = hashtags;
+        }
+
+        protected Pin getPin() {
+            return pin;
+        }
+
+        protected ArrayList<Hashtag> getHashtags() {
+            return hashtags;
+        }
     }
 }

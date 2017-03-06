@@ -25,4 +25,5 @@ public class Constants {
     static final String DATABASE_NAME = "amina_database";
     static final int DATABASE_VERSION = 1;
 
+    public static final String SERVER_ADDRESS = "http://127.0.0.1:8080";
 }
