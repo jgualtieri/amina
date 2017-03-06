@@ -29,7 +29,8 @@
             android:layout_gravity="start"
             android:gravity="center"
             android:id="@+id/pinEntrySafetyLabel"
-            android:textSize="15sp"
+            android:textSize="16sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/red"
 
 
@@ -39,7 +40,7 @@
             android:id="@+id/safetyRadioGroupPin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="60sp"
+            android:layout_marginStart="70sp"
             android:layout_gravity="end"
             android:gravity="end"
             android:scaleX="1"
@@ -53,10 +54,8 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@drawable/green_rect"
-                android:scaleX="0.7"
 
-                android:button="@null"
+                android:button="@drawable/green_selector"
                 android:tag="1" />
 
             <RadioButton
@@ -65,9 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:button="@null"
-                android:background="@drawable/yellow_rect"
-                android:scaleX="0.7"
+                android:button="@drawable/yellow_selector"
 
                 android:tag="2" />
             <RadioButton
@@ -76,9 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
-                android:button="@null"
-                android:background="@drawable/red_rect"
-                android:scaleX="0.7"
+                android:button="@drawable/red_selector"
 
                 android:tag="3" />
         </RadioGroup>
@@ -95,7 +90,7 @@
             android:layout_gravity="start"
             android:gravity="center_vertical"
             android:id="@+id/row2"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/red"
 
@@ -121,8 +116,9 @@
             android:layout_gravity="start"
             android:gravity="center_vertical"
             android:id="@+id/row3"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:textColor="@color/red"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
 
             android:text="Note"/>
         <EditText
