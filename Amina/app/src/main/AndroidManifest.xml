@@ -49,7 +49,13 @@
         <activity
             android:name=".MapActivity.MapActivity"
             android:label="@string/title_activity_map"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+        </activity>
         <activity
             android:name=".PinEntry.PinEntryActivity"
             android:label="@string/title_activity_pin_entry"
@@ -58,6 +64,7 @@
             android:name=".ContentActivity.ContentActivity"
             android:label="@string/title_activity_content"
             android:theme="@style/AppTheme.NoActionBar" />
+
     </application>
 
 </manifest>
