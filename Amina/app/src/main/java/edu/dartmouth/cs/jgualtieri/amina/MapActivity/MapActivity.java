@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentActivity;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
@@ -125,6 +126,15 @@ public class MapActivity extends AppCompatActivity
             // replace container with ResultsFragment
 //            fragmentManager.beginTransaction().replace(R.id.content_map,
 //                    new ResultsFragment()).commit();
+        }
+
+        if (id == R.id.info) {
+
+            // replace container with MapsFragment
+
+            Intent intent = new Intent(this, ContentActivity.class);
+            startActivity(intent);
+
         }
 
         // close the drawer
