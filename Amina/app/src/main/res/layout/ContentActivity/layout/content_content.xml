@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_content"
@@ -13,7 +13,7 @@
     tools:context="edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentActivity"
     tools:showIn="@layout/activity_content">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -98,7 +98,90 @@
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
-    </ScrollView>
 
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/card_view2"
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_margin="8dp"
+            android:layout_below="@id/card_view">
 
-</RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/thumbnail2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/thumbnail2" />
+                <ImageView
+                    android:id="@+id/overlay2"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_alignParentTop="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/overlay" />
+
+                <TextView
+                    android:id="@+id/title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="190dp"
+                    android:maxLines="3"
+                    android:paddingLeft="18dp"
+                    android:text="Surviving the City"
+                    android:textColor="#FFFFFF"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/date2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/thumbnail2"
+                    android:maxLines="3"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:paddingTop="10dp"
+                    android:text="Published on Sep 13, 2012"
+                    android:textColor="#666"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/date2"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"
+                    android:paddingTop="10dp"
+                    android:text="Many people now rely on their smartphones, sat-navs or other GPS devices to find their way around. But when these fail us, and there's no-one to ask for directions, there's a more natural way to navigate, says Tristan Gooley.
+It's not every week that a massive solar flare knocks out the GPS network, but all it takes is a flat battery or a mechanical fault to hobble your automated orientation aids."
+                    android:textColor="#BBBBBB"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+
+                <TextView
+                    android:id="@+id/contentSource2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:paddingLeft="18dp"
+                    android:text="BBC News"
+                    android:textColor="#B1B1B1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textStyle="bold"
+                    android:layout_below="@+id/title2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>
