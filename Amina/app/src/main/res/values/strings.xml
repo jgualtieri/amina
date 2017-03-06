@@ -16,7 +16,6 @@
 
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="auth_welcome">Welcome to Amina.</string>
     <string name="welcome_description">Amina provides life-saving instructions and guidance when you need it the most.
     Press \"Continue\" to get started.</string>
