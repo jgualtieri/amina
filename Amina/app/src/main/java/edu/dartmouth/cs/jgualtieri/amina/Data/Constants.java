@@ -7,15 +7,22 @@ package edu.dartmouth.cs.jgualtieri.amina.Data;
 public class Constants {
 
     // Used for database access
-    public static final String TABLE_PROMPT = "prompts";
+    static final String TABLE_HASHTAGS = "hashtags";
+    static final String TABLE_PINS = "pins";
 
-    public static final String COLUMN_ENTRY_ID = "entryId";
-    public static final String COLUMN_USER_ID = "userId";
-    public static final String COLUMN_LOCATION_X = "locationX";
-    public static final String COLUMN_LOCATION_Y = "locationY";
-    public static final String COLUMN_DATE_TIME = "dateTime";
+    static final String HASHTAGS_COLUMN_ENTRY_ID = "entryId";
+    static final String HASHTAGS_COLUMN_VALUE = "value";
+    static final String HASHTAGS_COLUMN_ASSOCIATED_PINS = "associatedPins";
 
-    public static final String DATABASE_NAME = "amina_database";
-    public static final int DATABASE_VERSION = 1;
+    static final String PINS_COLUMN_ENTRY_ID = "entryId";
+    static final String PINS_COLUMN_USER_ID = "userId";
+    static final String PINS_COLUMN_LOCATION_X = "locationX";
+    static final String PINS_COLUMN_LOCATION_Y = "locationY";
+    static final String PINS_COLUMN_DATE_TIME = "dateTime";
+    static final String PINS_COLUMN_COMMENT = "comment";
+    static final String PINS_COLUMN_SAFETY = "safety";
+
+    static final String DATABASE_NAME = "amina_database";
+    static final int DATABASE_VERSION = 1;
 
 }

@@ -15,10 +15,28 @@ public class Pin {
     private double locationX;
     private double locationY;
     private Calendar dateTime;
+    private int safetyStatus;
+    private String comment;
+
+    public int getSafetyStatus() {
+        return safetyStatus;
+    }
+
+    public void setSafetyStatus(int safetyStatus) {
+        this.safetyStatus = safetyStatus;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public long getEntryId(){ return entryId; }
 
-    public void setEntryId(){ this.entryId = entryId; }
+    public void setEntryId(long entryId){ this.entryId = entryId; }
 
     public double getLocationX() {
         return locationX;

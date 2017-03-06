@@ -94,8 +94,6 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
             }
         });
 
-
-
         // get shared preferences
         preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.activity);
         editor = preferences.edit();

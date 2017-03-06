@@ -100,7 +100,7 @@ public class AuthenticationActivity extends AppCompatActivity
                 editor.putString("name", "John Doe");
                 editor.putString("id", "0000000000000000000000000000000000");
                 editor.putBoolean("loginScreen", true);
-                editor.commit();
+                editor.apply();
 
                 Intent resultIntent = new Intent();
                 setResult(Activity.RESULT_OK, resultIntent);
@@ -128,7 +128,7 @@ public class AuthenticationActivity extends AppCompatActivity
             editor.putString("name", acct.getDisplayName());
             editor.putString("id", acct.getId());
             editor.putBoolean("loginScreen", true);
-            editor.commit();
+            editor.apply();
 
             Intent resultIntent = new Intent();
             setResult(Activity.RESULT_OK, resultIntent);

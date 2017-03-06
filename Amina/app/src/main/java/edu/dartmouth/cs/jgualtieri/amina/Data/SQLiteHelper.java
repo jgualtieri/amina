@@ -12,14 +12,23 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_CREATE = "CREATE TABLE "
-            + Constants.TABLE_PROMPT
+    private static final String HASHTAGS_TABLE_CREATE = "CREATE TABLE "
+            + Constants.TABLE_HASHTAGS
+            + " ( "
+            + Constants.HASHTAGS_COLUMN_ENTRY_ID + " integer primary key autoincrement, "
+            + Constants.HASHTAGS_COLUMN_VALUE + " text not null, "
+            + Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS + " text not null );";
+
+    private static final String PINS_TABLE_CREATE = "CREATE TABLE "
+            + Constants.TABLE_PINS
             + "( "
-            + Constants.COLUMN_ENTRY_ID + " integer primary key autoincrement, "
-            + Constants.COLUMN_USER_ID + " text, "
-            + Constants.COLUMN_LOCATION_X + " float, "
-            + Constants.COLUMN_LOCATION_Y + " float, "
-            + Constants.COLUMN_DATE_TIME + " datetime not null );";
+            + Constants.PINS_COLUMN_ENTRY_ID + " integer primary key autoincrement, "
+            + Constants.PINS_COLUMN_USER_ID + " text, "
+            + Constants.PINS_COLUMN_LOCATION_X + " float, "
+            + Constants.PINS_COLUMN_LOCATION_Y + " float, "
+            + Constants.PINS_COLUMN_COMMENT + " text, "
+            + Constants.PINS_COLUMN_SAFETY + " integer, "
+            + Constants.PINS_COLUMN_DATE_TIME + " datetime not null );";
 
     // Constructor
     public SQLiteHelper(Context context) {
@@ -29,13 +38,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     // Execute the create command on create
     @Override
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL(DATABASE_CREATE);
+        database.execSQL(HASHTAGS_TABLE_CREATE);
+        database.execSQL(PINS_TABLE_CREATE);
     }
 
     // Update the database
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-        database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_PROMPT);
+        database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_PINS);
         onCreate(database);
     }
 }
