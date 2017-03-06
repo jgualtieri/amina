@@ -161,7 +161,7 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Toast.makeText(context, "New text: " + newText, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "New text: " + newText, Toast.LENGTH_SHORT).show();
         return false;
     }
 }
