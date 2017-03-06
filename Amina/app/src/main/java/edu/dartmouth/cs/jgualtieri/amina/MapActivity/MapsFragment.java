@@ -50,6 +50,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
 
     // access View
     private View view;
+    private FloatingActionButton fab;
 
     // safety radio group
     private RadioGroup safetyOptions;
@@ -84,7 +85,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         }
 
         // create floating action button
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,9 +239,18 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         startActivityForResult(intent, PROMPTINT);
     }
 
+    public void showFab(){
+        fab.setVisibility(View.VISIBLE);
+    }
+
+    public void hideFab(){
+        fab.setVisibility(View.INVISIBLE);
+    }
+
     // show safety radio group
     public void showSafetyOptions(){
         setDim();
+        hideFab();
         safetyOptions.setVisibility(View.VISIBLE);
         dismissButtonOne.setVisibility(View.VISIBLE);
         dismissButtonTwo.setVisibility(View.VISIBLE);
@@ -251,6 +261,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
     // hide safety radio group
     public void hideSafetyOptions(){
         unDim();
+        showFab();
         safetyOptions.setVisibility(View.INVISIBLE);
         dismissButtonOne.setVisibility(View.INVISIBLE);
         dismissButtonOne.setBackgroundColor(Color.TRANSPARENT);
