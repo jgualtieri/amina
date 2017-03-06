@@ -28,4 +28,6 @@
     <string name="title_activity_pin_entry">PinEntryActivity</string>
     <string name="title_activity_content">ContentActivity</string>
 
+    <string name="map_api">AIzaSyCV8wULuPynnegxcHP6eqhSBjzMkgROcFs</string>
+
 </resources>

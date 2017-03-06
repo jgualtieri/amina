@@ -1,10 +1,14 @@
 package edu.dartmouth.cs.jgualtieri.amina.AuthenticationActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +23,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.auth.api.Auth;
 
+import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class AuthenticationActivity extends AppCompatActivity
@@ -28,6 +33,7 @@ public class AuthenticationActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 9001;
     private boolean mInSignInFlow = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,11 @@ public class AuthenticationActivity extends AppCompatActivity
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+        if (!checkPermission()){
+            // get user permission to use location
+            requestPermission();
+        }
 
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
@@ -151,5 +162,19 @@ public class AuthenticationActivity extends AppCompatActivity
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
         Log.d("tag", "onConnectionFailed:" + connectionResult);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public boolean checkPermission() {
+        return (MainActivity.activity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void requestPermission() {
+        if (MainActivity.activity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
     }
 }

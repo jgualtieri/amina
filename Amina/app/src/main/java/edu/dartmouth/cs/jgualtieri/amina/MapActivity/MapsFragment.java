@@ -1,15 +1,22 @@
 package edu.dartmouth.cs.jgualtieri.amina.MapActivity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -22,6 +29,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,7 +49,8 @@ import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.PinEntry.PinEntryActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
-public class MapsFragment extends Fragment implements Button.OnClickListener{
+public class MapsFragment extends Fragment implements Button.OnClickListener, OnMapReadyCallback,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     // string to reference boolean of whether prompt has been shown or not
     private final String PROMPT = "prompt";
@@ -59,6 +79,16 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
     private TextView safetyTitle;
     private TextView safetySubtitle;
 
+    // google maps
+    private GoogleMap map;
+    private MapView mapView;
+
+    // used to get last known location
+    GoogleApiClient googleApiClient;
+    Location lastLocation;
+    double lastLocationX;
+    double lastLocationY;
+
     public MapsFragment() {
     }
 
@@ -72,6 +102,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         super.onCreate(savedInstanceState);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,6 +126,19 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
             }
         });
 
+        setupMap(savedInstanceState);
+
+
+        // Create an instance of GoogleAPIClient.
+        if (googleApiClient == null) {
+            googleApiClient = new GoogleApiClient.Builder(MainActivity.activity)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+        googleApiClient.connect();
+
         // get shared preferences
         preferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.activity);
         editor = preferences.edit();
@@ -102,10 +146,13 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         // if first time opening
         if (!preferences.getBoolean(PROMPT, false)){
 
+            // get user permission to use location
+//            requestPermission();
+
             // display prompt to user
-            makeDialog();
-            editor.putBoolean(PROMPT, true);
-            editor.commit();
+//            makeDialog();
+//            editor.putBoolean(PROMPT, true);
+//            editor.commit();
         }
 
         // if its been 24 hours
@@ -213,6 +260,25 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         return false;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public boolean checkPermission() {
+        return (MainActivity.activity.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED);
+    }
+
+    public void setupMap(Bundle savedInstanceState){
+        Log.d("dubug", "setupMap called");
+        MapsInitializer.initialize(getActivity());
+        mapView = (MapView) view.findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+    }
+
     // create a new pin
     public void createPin(){
         showSafetyOptions();
@@ -314,7 +380,102 @@ public class MapsFragment extends Fragment implements Button.OnClickListener{
         interactionListener = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        Log.d("testing", "connected");
+
+        if (!checkPermission()){
+
+            makeDialog();
+            editor.putBoolean(PROMPT, true);
+            editor.commit();
+
+            lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    googleApiClient);
+            if (lastLocation != null) {
+                lastLocationX = lastLocation.getLatitude();
+                lastLocationY = lastLocation.getLongitude();
+
+                // position the camera correctly and animate the move
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(lastLocationX, lastLocationY))
+                        .zoom(1)
+                        .bearing(0)
+                        .tilt(0)
+                        .build();
+
+                CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
+
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                map.animateCamera(zoom);
+            }
+        }
+
+        if (checkPermission()) {
+            lastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    googleApiClient);
+            if (lastLocation != null) {
+                lastLocationX = lastLocation.getLatitude();
+                lastLocationY = lastLocation.getLongitude();
+
+                // position the camera correctly and animate the move
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(lastLocationX, lastLocationY))
+                        .zoom(18)
+                        .bearing(0)
+                        .tilt(0)
+                        .build();
+
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState); mapView.onSaveInstanceState(outState);
+    }
+    @Override
+    public void onLowMemory()
+    {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 }
