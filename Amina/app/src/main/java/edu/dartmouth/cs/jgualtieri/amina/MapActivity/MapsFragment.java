@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -38,16 +39,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import edu.dartmouth.cs.jgualtieri.amina.Data.Pin;
+import edu.dartmouth.cs.jgualtieri.amina.Data.PinHashtagDBHelper;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.PinEntry.PinEntryActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
+
+import static edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapActivity.context;
 
 public class MapsFragment extends Fragment implements Button.OnClickListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
@@ -80,7 +88,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
     private TextView safetySubtitle;
 
     // google maps
-    private GoogleMap map;
+    private static GoogleMap map;
     private MapView mapView;
 
     // used to get last known location
@@ -473,9 +481,70 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
     public void onResume() {
         super.onResume();
         mapView.onResume();
+        new AsyncDb().execute();
     }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+    // The definition of our task class
+    public static class AsyncDb extends AsyncTask<String, Integer, List<Pin>> {
+
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected List<Pin> doInBackground(String... params) {
+
+            // get FitnessEntryCreator to manipulate db
+            PinHashtagDBHelper data = new PinHashtagDBHelper(context);
+            data.open();
+
+            // return an array list of all entries
+            List<Pin> pins = data.getAllEntries();
+
+            data.close();
+            return pins;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+        @Override
+        protected void onPostExecute(List<Pin> result) {
+            super.onPostExecute(result);
+
+            for (Pin pin : result) {
+
+                float icon = BitmapDescriptorFactory.HUE_BLUE;
+                String title = "";
+
+                switch (pin.getSafetyStatus()) {
+                    case (1):
+                        icon = BitmapDescriptorFactory.HUE_GREEN;
+                        title = "Safe";
+                        break;
+                    case (2):
+                        icon = BitmapDescriptorFactory.HUE_YELLOW;
+                        title = "Caution";
+                        break;
+                    case (3):
+                        icon = BitmapDescriptorFactory.HUE_RED;
+                        title = "Danger";
+                        break;
+                }
+
+                map.addMarker(new MarkerOptions()
+                        .position(new LatLng(pin.getLocationX(), pin.getLocationY()))
+                        .title(title)
+                        .icon(BitmapDescriptorFactory.defaultMarker(icon)));
+            }
+        }
+    }
 }
+

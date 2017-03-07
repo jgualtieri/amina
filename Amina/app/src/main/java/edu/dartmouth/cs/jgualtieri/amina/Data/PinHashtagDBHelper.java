@@ -15,6 +15,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,10 +33,12 @@ public class PinHashtagDBHelper {
                                              Constants.HASHTAGS_COLUMN_VALUE,
                                              Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS};
     private String[] pinsTableColumns = {Constants.PINS_COLUMN_ENTRY_ID,
-                                         Constants.PINS_COLUMN_USER_ID,
-                                         Constants.PINS_COLUMN_LOCATION_X,
-                                         Constants.PINS_COLUMN_LOCATION_Y,
-                                         Constants.PINS_COLUMN_DATE_TIME};
+            Constants.PINS_COLUMN_USER_ID,
+            Constants.PINS_COLUMN_LOCATION_X,
+            Constants.PINS_COLUMN_LOCATION_Y,
+            Constants.PINS_COLUMN_DATE_TIME,
+            Constants.PINS_COLUMN_SAFETY,
+            Constants.PINS_COLUMN_COMMENT};
 
     // Constructor
     public PinHashtagDBHelper(Context context) {
@@ -133,6 +136,24 @@ public class PinHashtagDBHelper {
         }
     }
 
+    // get all entries in the table
+    public List<Pin> getAllEntries() {
+        List<Pin> pins = new ArrayList<Pin>();
+
+        Cursor cursor = sqLiteDatabase.query(Constants.TABLE_PINS,
+                pinsTableColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Pin pin = entryCursor(cursor);
+            pins.add(pin);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return pins;
+    }
+
 //    // Get all entries from the database
 //    public ArrayList<Pin> getAllEntries() {
 //        ArrayList<Pin> responses = new ArrayList<>();
@@ -192,5 +213,28 @@ public class PinHashtagDBHelper {
     private static String[] convertStringToArray(String str){
         String[] arr = str.split(strSeparator);
         return arr;
+    }
+
+    // create FitnessEntry object, assign the values from db, and return it
+    private Pin entryCursor(Cursor cursor) {
+
+        // create FitnessEntry object
+        Pin pin = new Pin();
+
+        //set FitnessEntry fields
+        pin.setEntryId(cursor.getLong(cursor.getColumnIndex(Constants.PINS_COLUMN_ENTRY_ID)));
+        pin.setUserId(cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_USER_ID)));
+        //String datetime = cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_DATE_TIME));
+        pin.setLocationX(cursor.getDouble(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_X)));
+        pin.setLocationY(cursor.getDouble(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_Y)));
+        pin.setSafetyStatus(cursor.getInt(cursor.getColumnIndex(Constants.PINS_COLUMN_SAFETY)));
+        pin.setComment(cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_COMMENT)));
+
+//        Gson gsonLocationArray = new Gson();
+//        String jsonLocationArray = new String(cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_GPS)));
+//        Type typeSpeed = new TypeToken<ArrayList<LatLng>>() {}.getType();
+//        entry.setLocationList(((ArrayList<LatLng>) gsonLocationArray.fromJson(jsonLocationArray, typeSpeed)));
+
+        return pin;
     }
 }
