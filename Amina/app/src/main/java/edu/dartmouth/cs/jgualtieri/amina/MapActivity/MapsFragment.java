@@ -521,6 +521,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
 
             for (Pin pin : result) {
 
+                Log.d("pinhashtag", pin.getHashtags().toString());
+
                 float icon = BitmapDescriptorFactory.HUE_BLUE;
                 String title = "";
 

@@ -30,6 +30,10 @@ public class AddPinServlet extends HttpServlet {
 
         // Add it to the datastore
         boolean retVal = DatastoreHelper.addPin(pin);
+
+        // send message of id to be deleted to all devices
+        MessagingEndpoint msg = new MessagingEndpoint();
+        msg.sendMessage(pin.toString());
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,

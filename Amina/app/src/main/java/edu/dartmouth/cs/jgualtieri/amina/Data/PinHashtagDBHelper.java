@@ -13,6 +13,11 @@ import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +43,8 @@ public class PinHashtagDBHelper {
             Constants.PINS_COLUMN_LOCATION_Y,
             Constants.PINS_COLUMN_DATE_TIME,
             Constants.PINS_COLUMN_SAFETY,
-            Constants.PINS_COLUMN_COMMENT};
+            Constants.PINS_COLUMN_COMMENT,
+            Constants.PINS_COLUMN_HASHTAGS};
 
     // Constructor
     public PinHashtagDBHelper(Context context) {
@@ -75,6 +81,8 @@ public class PinHashtagDBHelper {
         contentValues.put(Constants.PINS_COLUMN_DATE_TIME, formattedDate);
         contentValues.put(Constants.PINS_COLUMN_SAFETY, pin.getSafetyStatus());
         contentValues.put(Constants.PINS_COLUMN_COMMENT, pin.getComment());
+        Gson gsonLocationArray = new Gson();
+        contentValues.put(Constants.PINS_COLUMN_HASHTAGS, gsonLocationArray.toJson(pin.getHashtags()).getBytes());
 
         return sqLiteDatabase.insert(Constants.TABLE_PINS, null, contentValues);
     }
@@ -229,6 +237,11 @@ public class PinHashtagDBHelper {
         pin.setLocationY(cursor.getDouble(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_Y)));
         pin.setSafetyStatus(cursor.getInt(cursor.getColumnIndex(Constants.PINS_COLUMN_SAFETY)));
         pin.setComment(cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_COMMENT)));
+
+        Gson gsonHashtagArray = new Gson();
+        String jsonHashtagArray = new String(cursor.getBlob(cursor.getColumnIndex(Constants.PINS_COLUMN_HASHTAGS)));
+        Type typeHash = new TypeToken<ArrayList<String>>() {}.getType();
+        pin.setHashtags(((ArrayList<String>) gsonHashtagArray.fromJson(jsonHashtagArray, typeHash)));
 
 //        Gson gsonLocationArray = new Gson();
 //        String jsonLocationArray = new String(cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_GPS)));

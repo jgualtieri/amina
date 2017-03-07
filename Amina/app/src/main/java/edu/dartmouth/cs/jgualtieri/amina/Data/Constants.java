@@ -21,6 +21,7 @@ public class Constants {
     static final String PINS_COLUMN_DATE_TIME = "dateTime";
     static final String PINS_COLUMN_COMMENT = "comment";
     static final String PINS_COLUMN_SAFETY = "safety";
+    static final String PINS_COLUMN_HASHTAGS = "pinHashtags";
 
     static final String DATABASE_NAME = "amina_database";
     static final int DATABASE_VERSION = 1;

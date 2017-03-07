@@ -28,7 +28,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Constants.PINS_COLUMN_LOCATION_Y + " float, "
             + Constants.PINS_COLUMN_COMMENT + " text, "
             + Constants.PINS_COLUMN_SAFETY + " integer, "
-            + Constants.PINS_COLUMN_DATE_TIME + " datetime not null );";
+            + Constants.PINS_COLUMN_DATE_TIME + " datetime not null, "
+            + Constants.PINS_COLUMN_HASHTAGS + " blob );";
 
     // Constructor
     public SQLiteHelper(Context context) {

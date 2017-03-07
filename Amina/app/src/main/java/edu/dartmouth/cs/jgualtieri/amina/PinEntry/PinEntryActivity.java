@@ -148,13 +148,27 @@ public class PinEntryActivity extends AppCompatActivity
                 EditText commentEditText = (EditText) findViewById(R.id.commentsEditText);
                 pin.setComment(commentEditText.getText().toString());
 
-                long pinEntryId = dbHelper.addPinToDatabase(pin);
-                if (pinEntryId > 0) {
-                    Log.d(TAG, "Successfully saved pin with id = " + pinEntryId);
-                } else {
-                    Log.d(TAG, "Unable to successfully save pin.");
+                String hashtagsStringPin = hashTagTextView.getText() + "";
+                if (!hashtagsStringPin.isEmpty()) {
+                    hashtagsStringPin = hashtagsStringPin.replaceAll("\\s+", "");
+                    if (hashtagsStringPin.charAt(hashtagsStringPin.length() - 1) == ',') {
+                        hashtagsStringPin = hashtagsStringPin.substring(0, hashtagsStringPin.length() - 1);
+                    }
+                    String[] hashtagsPin = hashtagsStringPin.split(",");
+
+                    ArrayList<String> pinHashtags = new ArrayList<>();
+                    // Store all of the hashtags
+                    for (String hashtag : hashtagsPin) {
+
+                        pinHashtags.add(hashtag);
+                    }
+
+                    pin.setHashtags(pinHashtags);
+                    Log.d("pinhashtag", pinHashtags.toString());
                 }
-                pin.setEntryId(pinEntryId);
+
+                //pin.setEntryId(pinEntryId);
+                long pinEntryId = dbHelper.addPinToDatabase(pin);
 
                 // Parse out the hashtags from textView
                 ArrayList<Hashtag> hashtagList = new ArrayList<>();
@@ -168,6 +182,7 @@ public class PinEntryActivity extends AppCompatActivity
 
                     // Store all of the hashtags
                     for (String hashtag : hashtags) {
+
                         Hashtag hashtagObject = new Hashtag();
                         String[] associatedPins = {String.valueOf(pinEntryId)};
                         hashtagObject.setValue(hashtag);
@@ -182,6 +197,12 @@ public class PinEntryActivity extends AppCompatActivity
                         }
                         hashtagList.add(hashtagObject);
                     }
+
+                }
+                if (pinEntryId > 0) {
+                    Log.d(TAG, "Successfully saved pin with id = " + pinEntryId);
+                } else {
+                    Log.d(TAG, "Unable to successfully save pin.");
                 }
 
                 // Create an object to pass to the datastore

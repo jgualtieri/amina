@@ -43,4 +43,9 @@ public class Pin {
         this.safetyStatus = safetyStatus;
         this.comment = comment;
     }
+
+    public String toString(){
+        return "Pin," + entryId + "," + userId + "," + locationX + "," + locationX + ","
+                + safetyStatus + "," + comment;
+    }
 }
