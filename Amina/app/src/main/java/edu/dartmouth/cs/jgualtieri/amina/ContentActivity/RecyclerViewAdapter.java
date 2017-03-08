@@ -1,6 +1,7 @@
 package edu.dartmouth.cs.jgualtieri.amina.ContentActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -80,15 +81,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override public void onClick(View v) {
                 // item clicked
                 MediaPlayer mp=new MediaPlayer();
-                try{
-                    mp.setDataSource(mDataset[position].getVideoPath());
-                    mp.setScreenOnWhilePlaying(true);
-                    mp.prepare();
-                    mp.start();
-                }
-                catch (IOException e){
 
-                }
+                Intent myIntent = new Intent(MainActivity.activity, PlayerActivity.class);
+                myIntent.putExtra("path", mDataset[position].getVideoPath()); //Optional parameters
+                MainActivity.activity.startActivity(myIntent);
 
             }
         });
