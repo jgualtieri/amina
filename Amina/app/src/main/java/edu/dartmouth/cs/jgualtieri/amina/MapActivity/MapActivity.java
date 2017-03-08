@@ -31,16 +31,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
-import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentActivity;
 import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentFragment;
 import edu.dartmouth.cs.jgualtieri.amina.Data.Pin;
 import edu.dartmouth.cs.jgualtieri.amina.Data.PinHashtagDBHelper;
+import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentsFragment;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MapsFragment.OnFragmentInteractionListener, SearchView.OnQueryTextListener, ContentFragment.OnFragmentInteractionListener {
+        MapsFragment.OnFragmentInteractionListener, SearchView.OnQueryTextListener, ContentFragment.OnFragmentInteractionListener, ContentsFragment.OnFragmentInteractionListener {
 
     // shared preferences
     private SharedPreferences preferences;
@@ -145,7 +145,7 @@ public class MapActivity extends AppCompatActivity
             //Intent intent = new Intent(this, ContentActivity.class);
             //startActivity(intent);
             fragmentManager.beginTransaction().replace(R.id.content_map,
-                    new ContentFragment()).commit();
+                    new ContentsFragment()).commit();
 
         }
 
