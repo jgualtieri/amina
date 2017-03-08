@@ -29,8 +29,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public ViewHolder(View v) {
             super(v);
             titleTextView = (TextView) v.findViewById(R.id.title);
-            titleTextView.setTextColor(MainActivity.activity.getResources().getColor(R.color.blue));
-
+            descriptionTextView = (TextView) v.findViewById(R.id.description);
             imageView = (ImageView) v.findViewById(R.id.thumbnail);
         }
     }
@@ -61,10 +60,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.titleTextView.setText(mDataset[position].getTitle());
-
-//        Context context = holder.imageView.getContext();
-//        int id = context.getResources().getIdentifier(mDataset[position].getImagePath(), "drawable", context.getPackageName());
-//        holder.imageView.setImageResource(id);
+        holder.descriptionTextView.setText(mDataset[position].getDescription());
+        Context context = holder.imageView.getContext();
+        int id = context.getResources().getIdentifier(mDataset[position].getImagePath(), "drawable", context.getPackageName());
+        holder.imageView.setImageResource(id);
 
     }
 
