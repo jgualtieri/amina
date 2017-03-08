@@ -6,6 +6,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -68,6 +70,8 @@ public class MapActivity extends AppCompatActivity
         View hView =  navigationView.getHeaderView(0);
         TextView nav_user = (TextView)hView.findViewById(R.id.nameDisplayTextView);
         nav_user.setText(preferences.getString("name", ""));
+        nav_user.setTextSize(22);
+        nav_user.setTextColor(Color.WHITE);
 
         // create toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
