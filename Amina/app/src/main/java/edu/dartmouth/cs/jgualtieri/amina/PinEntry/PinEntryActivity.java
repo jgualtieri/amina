@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -148,13 +149,27 @@ public class PinEntryActivity extends AppCompatActivity
                 EditText commentEditText = (EditText) findViewById(R.id.commentsEditText);
                 pin.setComment(commentEditText.getText().toString());
 
-                long pinEntryId = dbHelper.addPinToDatabase(pin);
-                if (pinEntryId > 0) {
-                    Log.d(TAG, "Successfully saved pin with id = " + pinEntryId);
-                } else {
-                    Log.d(TAG, "Unable to successfully save pin.");
+                String hashtagsStringPin = hashTagTextView.getText() + "";
+                if (!hashtagsStringPin.isEmpty()) {
+                    hashtagsStringPin = hashtagsStringPin.replaceAll("\\s+", "");
+                    if (hashtagsStringPin.charAt(hashtagsStringPin.length() - 1) == ',') {
+                        hashtagsStringPin = hashtagsStringPin.substring(0, hashtagsStringPin.length() - 1);
+                    }
+                    String[] hashtagsPin = hashtagsStringPin.split(",");
+
+                    ArrayList<String> pinHashtags = new ArrayList<>();
+                    // Store all of the hashtags
+                    for (String hashtag : hashtagsPin) {
+
+                        pinHashtags.add(hashtag);
+                    }
+
+                    pin.setHashtags(pinHashtags);
+                    Log.d("pinhashtag", pinHashtags.toString());
                 }
-                pin.setEntryId(pinEntryId);
+
+                //pin.setEntryId(pinEntryId);
+                long pinEntryId = dbHelper.addPinToDatabase(pin);
 
                 // Parse out the hashtags from textView
                 ArrayList<Hashtag> hashtagList = new ArrayList<>();
@@ -168,6 +183,7 @@ public class PinEntryActivity extends AppCompatActivity
 
                     // Store all of the hashtags
                     for (String hashtag : hashtags) {
+
                         Hashtag hashtagObject = new Hashtag();
                         String[] associatedPins = {String.valueOf(pinEntryId)};
                         hashtagObject.setValue(hashtag);
@@ -182,6 +198,12 @@ public class PinEntryActivity extends AppCompatActivity
                         }
                         hashtagList.add(hashtagObject);
                     }
+
+                }
+                if (pinEntryId > 0) {
+                    Log.d(TAG, "Successfully saved pin with id = " + pinEntryId);
+                } else {
+                    Log.d(TAG, "Unable to successfully save pin.");
                 }
 
                 // Create an object to pass to the datastore
@@ -292,6 +314,12 @@ public class PinEntryActivity extends AppCompatActivity
                 pinUpload.put("dateTime", pin.getDateTime().getTime().toString());
                 pinUpload.put("safetyStatus", String.valueOf(pin.getSafetyStatus()));
                 pinUpload.put("comment", String.valueOf(pin.getComment()));
+
+                // How to store JSON string
+                Gson gson = new Gson();
+                // This can be any object. Does not have to be an arraylist.
+                String json = gson.toJson(pin.getHashtags());
+                pinUpload.put("hashtag", json);
 
                 ServerUtilities.post(Constants.SERVER_ADDRESS + "/add_pin", pinUpload);
 

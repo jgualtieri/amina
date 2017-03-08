@@ -17,6 +17,7 @@ public class Pin {
     public static final String FIELD_NAME_DATETIME = "dateTime";
     public static final String FIELD_NAME_SAFETY_STATUS = "safetyStatus";
     public static final String FIELD_NAME_COMMENT = "comment";
+    public static final String FIELD_NAME_HASHTAG = "pinHashtag";
 
     public static final String KEY_NAME = FIELD_NAME_ENTRY_ID;
 
@@ -27,6 +28,7 @@ public class Pin {
     public String dateTime;
     public String safetyStatus;
     public String comment;
+    public String hashtags;
 
     public Pin(String entryId,
                String userId,
@@ -34,7 +36,8 @@ public class Pin {
                String locationY,
                String dateTime,
                String safetyStatus,
-               String comment) {
+               String comment,
+               String hashtags) {
         this.entryId = entryId;
         this.userId = userId;
         this.locationX = locationX;
@@ -42,5 +45,11 @@ public class Pin {
         this.dateTime = dateTime;
         this.safetyStatus = safetyStatus;
         this.comment = comment;
+        this.hashtags = hashtags;
+    }
+
+    public String toString(){
+        return "Pin/" + entryId + "/" + userId + "/" + locationX + "/" + locationY + "/"
+                + safetyStatus + "/" + comment + "/" + hashtags;
     }
 }

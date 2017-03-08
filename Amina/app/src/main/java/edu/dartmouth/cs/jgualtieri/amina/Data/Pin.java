@@ -2,6 +2,8 @@ package edu.dartmouth.cs.jgualtieri.amina.Data;
 
 import android.icu.util.Calendar;
 
+import java.util.ArrayList;
+
 /**
  * Created by Justin Gualtieri on 2/26/17.
  *
@@ -11,12 +13,14 @@ import android.icu.util.Calendar;
 
 public class Pin {
     private long entryId;
+    private String hashId;
     private String userId;
     private double locationX;
     private double locationY;
     private Calendar dateTime;
     private int safetyStatus;
     private String comment;
+    private ArrayList<String> hashtags = new ArrayList<>();
 
     public int getSafetyStatus() {
         return safetyStatus;
@@ -68,5 +72,21 @@ public class Pin {
 
     public void setDateTime(Calendar dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public ArrayList<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(ArrayList<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public String getHashId() {
+        return hashId;
+    }
+
+    public void setHashId(String hashId) {
+        this.hashId = hashId;
     }
 }

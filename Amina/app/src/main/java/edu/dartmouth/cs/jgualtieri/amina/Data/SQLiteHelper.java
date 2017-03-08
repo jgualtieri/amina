@@ -28,7 +28,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Constants.PINS_COLUMN_LOCATION_Y + " float, "
             + Constants.PINS_COLUMN_COMMENT + " text, "
             + Constants.PINS_COLUMN_SAFETY + " integer, "
-            + Constants.PINS_COLUMN_DATE_TIME + " datetime not null );";
+            + Constants.PINS_COLUMN_DATE_TIME + " datetime not null, "
+            + Constants.PINS_COLUMN_HASHTAGS + " blob );";
+
+    private static final String PINS_CLOUD_TABLE_CREATE = "CREATE TABLE "
+            + Constants.TABLE_CLOUD_PINS
+            + "( "
+            + Constants.PINS_CLOUD_COLUMN_ENTRY_ID + " varchar primary key , "
+            + Constants.PINS_CLOUD_COLUMN_USER_ID + " text, "
+            + Constants.PINS_CLOUD_COLUMN_LOCATION_X + " float, "
+            + Constants.PINS_CLOUD_COLUMN_LOCATION_Y + " float, "
+            + Constants.PINS_CLOUD_COLUMN_COMMENT + " text, "
+            + Constants.PINS_CLOUD_COLUMN_SAFETY + " integer, "
+            + Constants.PINS_CLOUD_COLUMN_DATE_TIME + " datetime not null, "
+            + Constants.PINS_CLOUD_COLUMN_HASHTAGS + " blob );";
 
     // Constructor
     public SQLiteHelper(Context context) {
@@ -40,6 +53,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(HASHTAGS_TABLE_CREATE);
         database.execSQL(PINS_TABLE_CREATE);
+        database.execSQL(PINS_CLOUD_TABLE_CREATE);
     }
 
     // Update the database
