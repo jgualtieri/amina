@@ -1,12 +1,15 @@
 package edu.dartmouth.cs.jgualtieri.amina.ContentActivity;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
@@ -26,11 +29,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public TextView titleTextView;
         public TextView descriptionTextView;
         public ImageView imageView;
+        public View view;
         public ViewHolder(View v) {
             super(v);
+            view = v;
             titleTextView = (TextView) v.findViewById(R.id.title);
             descriptionTextView = (TextView) v.findViewById(R.id.description);
             imageView = (ImageView) v.findViewById(R.id.thumbnail);
+
+
         }
     }
 
@@ -56,14 +63,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.titleTextView.setText(mDataset[position].getTitle());
-        holder.descriptionTextView.setText(mDataset[position].getDescription());
-        Context context = holder.imageView.getContext();
+
+        final ViewHolder vh = holder;
+        vh.titleTextView.setText(mDataset[position].getTitle());
+        vh.descriptionTextView.setText(mDataset[position].getDescription());
+        Context context = vh.imageView.getContext();
         int id = context.getResources().getIdentifier(mDataset[position].getImagePath(), "drawable", context.getPackageName());
-        holder.imageView.setImageResource(id);
+        vh.imageView.setImageResource(id);
+
+        vh.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                // item clicked
+                MediaPlayer mp=new MediaPlayer();
+                try{
+                    mp.setDataSource(mDataset[position].getVideoPath());
+                    mp.setScreenOnWhilePlaying(true);
+                    mp.prepare();
+                    mp.start();
+                }
+                catch (IOException e){
+
+                }
+
+            }
+        });
 
     }
 

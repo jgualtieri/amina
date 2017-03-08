@@ -71,22 +71,26 @@ public class ContentsFragment extends Fragment {
         String cardTitle1 = getString(R.string.card_view_one_title);
         String cardDescription1 = getString(R.string.card_view_one_description);
         String cardImage1 = "thumbnail";
-        CardObject cardObj1 = new CardObject(cardTitle1,cardDescription1,cardImage1);
+        String cardVid1 = "android.resource://" +this.getContext().getPackageName() + "/raw/card_one";
+        CardObject cardObj1 = new CardObject(cardTitle1,cardDescription1,cardImage1,cardVid1);
 
         String cardTitle2 = getString(R.string.card_view_two_title);
         String cardDescription2 = getString(R.string.card_view_two_description);
         String cardImage2 = "thumbnail2";
-        CardObject cardObj2 = new CardObject(cardTitle2,cardDescription2,cardImage2);
+        String cardVid2 = "android.resource://" +this.getContext().getPackageName() + "/raw/card_two";
+        CardObject cardObj2 = new CardObject(cardTitle2,cardDescription2,cardImage2,cardVid2);
 
         String cardTitle3 = getString(R.string.card_view_three_title);
         String cardDescription3 = getString(R.string.card_view_three_description);
         String cardImage3 = "thumbnail3";
-        CardObject cardObj3 = new CardObject(cardTitle3,cardDescription3,cardImage3);
+        String cardVid3 = "android.resource://" +this.getContext().getPackageName() + "/raw/card_three";
+        CardObject cardObj3 = new CardObject(cardTitle3,cardDescription3,cardImage3,cardVid3);
 
         String cardTitle4 = getString(R.string.card_view_four_title);
         String cardDescription4 = getString(R.string.card_view_four_description);
         String cardImage4 = "thumbnail4";
-        CardObject cardObj4 = new CardObject(cardTitle4,cardDescription4,cardImage4);
+        String cardVid4 = "android.resource://" +this.getContext().getPackageName() + "/raw/card_four";
+        CardObject cardObj4 = new CardObject(cardTitle4,cardDescription4,cardImage4,cardVid4);
 
         CardObject[] cardArray = {cardObj1,cardObj2,cardObj3,cardObj4};
 

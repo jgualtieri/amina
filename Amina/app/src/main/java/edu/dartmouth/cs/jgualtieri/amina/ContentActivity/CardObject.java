@@ -8,14 +8,16 @@ public class CardObject {
     String title;
     String description;
     String imagePath;
+    String videoPath;
     public CardObject(){
 
     }
 
-    public CardObject(String content_title, String content_description, String content_imagePath){
+    public CardObject(String content_title, String content_description, String content_imagePath, String content_videoPath){
         title = content_title;
         description = content_description;
         imagePath = content_imagePath;
+        videoPath = content_videoPath;
     }
 
     public String getTitle(){
@@ -29,5 +31,7 @@ public class CardObject {
     public String getImagePath(){
         return imagePath;
     }
+
+    public String getVideoPath() { return videoPath; }
 
 }
