@@ -50,6 +50,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
     private TextView safetySubtitle;
 
     // google maps
-    private static GoogleMap map;
+    public static GoogleMap map;
     private MapView mapView;
 
     // used to get last known location
@@ -306,33 +307,39 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                 LinearLayout info = new LinearLayout(context);
                 info.setOrientation(LinearLayout.VERTICAL);
 
+                // Get the title (either Safe, Caution, or Danger)
                 TextView title = new TextView(context);
                 title.setTextColor(Color.BLACK);
                 title.setGravity(Gravity.CENTER);
                 title.setTypeface(null, Typeface.BOLD);
                 title.setText(marker.getTitle());
+                info.addView(title);
 
                 String[] text = marker.getSnippet().split("[|]");
-                Log.d("1: ", text[0]);
-                Log.d("2: ", text[1]);
+                Log.d("Value of text", Arrays.toString(text));
 
-                TextView ht = new TextView(context);
-                ht.setTextColor(Color.RED);
-                ht.setText(text[0]);
-
-                TextView ct = new TextView(context);
-                ct.setTextColor(Color.GRAY);
-                ct.setText("Comment: \n" + text[1]);
-
-                info.addView(title);
-                info.addView(ht);
-                info.addView(ct);
+                if (text.length >= 1) {
+                    if (!text[0].equals("[]")) {
+                        Log.d("1: ", text[0]);
+                        TextView hashtag = new TextView(context);
+                        hashtag.setTextColor(Color.RED);
+                        hashtag.setText(text[0]);
+                        info.addView(hashtag);
+                    }
+                }
+                if (text.length == 2) {
+                    Log.d("2: ", text[1]);
+                    TextView comment = new TextView(context);
+                    comment.setTextColor(Color.GRAY);
+                    String commentText = "Comment: \n" + text[1];
+                    comment.setText(commentText);
+                    info.addView(comment);
+                }
 
                 return info;
             }
         });
     }
-    
 
     // create a new pin
     public void createPin(){
@@ -395,9 +402,6 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
     // if user clicks on hidden dismiss buttons
     public void onClick(View view){
         hideSafetyOptions();
-
-//        Snackbar.make(view, "hide button clicked", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
     }
 
     // on previous activity finishing

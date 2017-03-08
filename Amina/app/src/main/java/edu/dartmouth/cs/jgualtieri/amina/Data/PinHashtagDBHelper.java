@@ -1,27 +1,21 @@
 package edu.dartmouth.cs.jgualtieri.amina.Data;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.icu.text.SimpleDateFormat;
-import android.icu.util.Calendar;
 import android.os.Build;
-import android.os.SystemClock;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Justin Gualtieri on 2/26/17.
@@ -34,6 +28,7 @@ public class PinHashtagDBHelper {
     private static final String TAG = "DB Helper";
     private SQLiteHelper sqLiteHelper;
     private SQLiteDatabase sqLiteDatabase;
+
     private String[] hashtagsTableColumns = {Constants.HASHTAGS_COLUMN_ENTRY_ID,
                                              Constants.HASHTAGS_COLUMN_VALUE,
                                              Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS};
@@ -199,7 +194,8 @@ public class PinHashtagDBHelper {
 
             // Update the existing entry
             ContentValues contentValues = new ContentValues();
-            contentValues.put(Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS, convertArrayToString(hashtag.getAssociatedPins()));
+            contentValues.put(Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS,
+                    convertArrayToString(hashtag.getAssociatedPins()));
             sqLiteDatabase.update(Constants.TABLE_CLOUD_HASHTAGS, contentValues,
                     Constants.HASHTAGS_CLOUD_COLUMN_VALUE + " = " + hashtag.getValue(), null);
 
@@ -222,8 +218,6 @@ public class PinHashtagDBHelper {
         }
     }
 
-
-
     // get all entries in the table
     public List<Pin> getAllEntries() {
         List<Pin> pins = new ArrayList<Pin>();
@@ -233,7 +227,7 @@ public class PinHashtagDBHelper {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Pin pin = entryCursor(cursor);
+            Pin pin = cursorToPin(cursor);
             pins.add(pin);
             cursor.moveToNext();
         }
@@ -245,58 +239,79 @@ public class PinHashtagDBHelper {
 
         cursorCloud.moveToFirst();
         while (!cursorCloud.isAfterLast()) {
-            Pin pin = entryCursor(cursorCloud);
+            Pin pin = cursorToPin(cursorCloud);
             pins.add(pin);
             cursorCloud.moveToNext();
         }
+
         // Make sure to close the cursor
         cursorCloud.close();
-
 
         return pins;
     }
 
-//    // Get all entries from the database
-//    public ArrayList<Pin> getAllEntries() {
-//        ArrayList<Pin> responses = new ArrayList<>();
-//
-//        // Get all of the entries
-//        Cursor cursor = sqLiteDatabase.query(Constants.TABLE_PINS, pinsTableColumns, null, null,
-//                null, null, null);
-//        cursor.moveToFirst();
-//
-//        // Iterate through the entries and add them to the list
-//        while (!cursor.isAfterLast()) {
-//
-//            cursor.moveToNext();
-//        }
-//
-//        //TODO
-//        return responses;
-//    }
-//
-//    // Create a prompt response object from a cursor
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private Pin entryToPin(Cursor cursor) {
-//        Pin pin = new Pin();
-//
-//        Calendar calendar = Calendar.getInstance();
-//        SimpleDateFormat format = new SimpleDateFormat("H:mm:ss MMM d', 'yyyy", Locale.ENGLISH);
-//
-//        try {
-//            calendar.setTime(format.parse(cursor.getString(cursor
-//                    .getColumnIndex(Constants.PINS_COLUMN_DATE_TIME))));
-//        } catch (ParseException pe){
-//            pe.printStackTrace();
-//        }
-//
-//        pin.setEntryId(cursor.getLong(cursor.getColumnIndex(Constants.PINS_COLUMN_ENTRY_ID)));
-//        pin.setUserId(cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_USER_ID)));
-//        pin.setLocationX(cursor.getFloat(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_X)));
-//        pin.setLocationY(cursor.getFloat(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_Y)));
-//
-//        return pin;
-//    }
+    // Query the both the local and the cloud databases and return and display all
+    // pins containing a given hashtag
+    public List<Pin> queryDatabaseForPins(String hashtagValue) {
+        List<Pin> pins = new ArrayList<>();
+
+        // First, query the local database to get the hashtag value
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + Constants.TABLE_HASHTAGS +
+                " WHERE TRIM(" + Constants.HASHTAGS_COLUMN_VALUE + ") = '" +
+                hashtagValue.trim() + "'", null);
+
+        // Retrieve all pins associated with the specific hashtag from the local database
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            Hashtag hashtag = cursorToHashtag(cursor);
+            String[] associatedPins = hashtag.getAssociatedPins();
+            for (String pin : associatedPins) {
+                Log.d("Value of entry id", pin);
+                Pin localPin = queryLocalDatabaseForPin(Long.valueOf(pin));
+                Log.d("Value of local comment", localPin.getComment());
+                pins.add(localPin);
+            }
+        }
+
+        // Next, query the cloud database to get the hashtag value
+        cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + Constants.TABLE_CLOUD_HASHTAGS +
+                " WHERE TRIM(" + Constants.HASHTAGS_CLOUD_COLUMN_VALUE + ") = '" +
+                hashtagValue.trim() + "'", null);
+
+        // Get all of the hashtags from the cloud database
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            Hashtag hashtag = cursorToHashtag(cursor);
+            String[] associatedPins = hashtag.getAssociatedPins();
+            for (String pin : associatedPins) {
+                Pin cloudPin = queryCloudDatabaseForPin(pin);
+                pins.add(cloudPin);
+            }
+        }
+        return pins;
+    }
+
+    // Queries the local database for a pin given the entry Id
+    public Pin queryLocalDatabaseForPin(long entryId) {
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + Constants.TABLE_PINS +
+                " WHERE TRIM(" + Constants.PINS_COLUMN_ENTRY_ID + ") = '" +
+                String.valueOf(entryId) + "'", null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            Log.d("Query local database", "pin found");
+        } else {
+            Log.d("Query local database", "pin not found");
+        }
+        return cursorToPin(cursor);
+    }
+
+    // Queries the local database for a pin given the entry Id
+    public Pin queryCloudDatabaseForPin(String hashId) {
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + Constants.TABLE_CLOUD_PINS +
+                " WHERE TRIM(" + Constants.PINS_CLOUD_COLUMN_ENTRY_ID + ") = '" +
+                hashId.trim() + "'", null);
+        return cursorToPin(cursor);
+    }
 
     private static String strSeparator = "__,__";
 
@@ -318,14 +333,15 @@ public class PinHashtagDBHelper {
     }
 
     // create FitnessEntry object, assign the values from db, and return it
-    private Pin entryCursor(Cursor cursor) {
+    private Pin cursorToPin(Cursor cursor) {
 
         // create FitnessEntry object
         Pin pin = new Pin();
 
         //set FitnessEntry fields
-        pin.setEntryId(cursor.getLong(cursor.getColumnIndex(Constants.PINS_COLUMN_ENTRY_ID)));
+        // pin.setEntryId(cursor.getLong(cursor.getColumnIndex(Constants.PINS_COLUMN_ENTRY_ID)));
         pin.setUserId(cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_USER_ID)));
+        // TODO figure out how to retrieve date time
         //String datetime = cursor.getString(cursor.getColumnIndex(Constants.PINS_COLUMN_DATE_TIME));
         pin.setLocationX(cursor.getDouble(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_X)));
         pin.setLocationY(cursor.getDouble(cursor.getColumnIndex(Constants.PINS_COLUMN_LOCATION_Y)));
@@ -337,11 +353,23 @@ public class PinHashtagDBHelper {
         Type typeHash = new TypeToken<ArrayList<String>>() {}.getType();
         pin.setHashtags(((ArrayList<String>) gsonHashtagArray.fromJson(jsonHashtagArray, typeHash)));
 
-//        Gson gsonLocationArray = new Gson();
-//        String jsonLocationArray = new String(cursor.getBlob(cursor.getColumnIndex(MySQLiteHelper.COLUMN_GPS)));
-//        Type typeSpeed = new TypeToken<ArrayList<LatLng>>() {}.getType();
-//        entry.setLocationList(((ArrayList<LatLng>) gsonLocationArray.fromJson(jsonLocationArray, typeSpeed)));
-
         return pin;
+    }
+
+    // Convert a cursor to a Hashtag object
+    private Hashtag cursorToHashtag(Cursor cursor) {
+
+        // create Hashtag object
+        Hashtag hashtag = new Hashtag();
+
+        // set Hashtag fields
+        hashtag.setEntryId(cursor.getLong(cursor.getColumnIndex(Constants.HASHTAGS_COLUMN_ENTRY_ID)));
+        hashtag.setValue(cursor.getString(cursor.getColumnIndex(Constants.HASHTAGS_COLUMN_VALUE)));
+        String associatedPinsText = cursor.getString(cursor
+                .getColumnIndex(Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS));
+        String[] associatedPins = convertStringToArray(associatedPinsText);
+        hashtag.setAssociatedPins(associatedPins);
+
+        return hashtag;
     }
 }

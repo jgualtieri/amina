@@ -24,8 +24,17 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
+
 import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentActivity;
 import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentFragment;
+import edu.dartmouth.cs.jgualtieri.amina.Data.Pin;
+import edu.dartmouth.cs.jgualtieri.amina.Data.PinHashtagDBHelper;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
@@ -39,6 +48,7 @@ public class MapActivity extends AppCompatActivity
 
     // save reference to main activity context
     public static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +102,6 @@ public class MapActivity extends AppCompatActivity
 
         searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(this);
-
         return true;
     }
 
@@ -158,13 +167,96 @@ public class MapActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(context, "Query: " + query, Toast.LENGTH_SHORT).show();
+
+        // Get access to the database
+        PinHashtagDBHelper data = new PinHashtagDBHelper(context);
+        data.open();
+
+        MapsFragment.map.clear();
+
+        // Query the database for the pins associated with a given hashtag
+        List<Pin> pins = data.queryDatabaseForPins(query);
+        for (Pin pin : pins) {
+
+            float icon = BitmapDescriptorFactory.HUE_BLUE;
+            String title = "";
+
+            switch (pin.getSafetyStatus()) {
+                case (1):
+                    icon = BitmapDescriptorFactory.HUE_GREEN;
+                    title = "Safe";
+                    break;
+                case (2):
+                    icon = BitmapDescriptorFactory.HUE_YELLOW;
+                    title = "Caution";
+                    break;
+                case (3):
+                    icon = BitmapDescriptorFactory.HUE_RED;
+                    title = "Danger";
+                    break;
+            }
+
+            String hashtags = pin.getHashtags().toString();
+            String comments = pin.getComment();
+            String send = hashtags + "|" + comments;
+
+            MapsFragment.map.addMarker(new MarkerOptions()
+                    .position(new LatLng(pin.getLocationX(), pin.getLocationY()))
+                    .title(title)
+                    .snippet(send)
+                    .icon(BitmapDescriptorFactory.defaultMarker(icon)));
+            Log.d("Query result", pin.getComment());
+        }
+
+        data.close();
+
+        // Toast.makeText(context, "Query: " + query, Toast.LENGTH_SHORT).show();
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        //Toast.makeText(context, "New text: " + newText, Toast.LENGTH_SHORT).show();
+
+        PinHashtagDBHelper data = new PinHashtagDBHelper(context);
+        data.open();
+
+        // return an array list of all entries
+        List<Pin> pins = data.getAllEntries();
+        for (Pin pin : pins) {
+
+            Log.d("pinhashtag", pin.getHashtags().toString());
+
+            float icon = BitmapDescriptorFactory.HUE_BLUE;
+            String title = "";
+
+            switch (pin.getSafetyStatus()) {
+                case (1):
+                    icon = BitmapDescriptorFactory.HUE_GREEN;
+                    title = "Safe";
+                    break;
+                case (2):
+                    icon = BitmapDescriptorFactory.HUE_YELLOW;
+                    title = "Caution";
+                    break;
+                case (3):
+                    icon = BitmapDescriptorFactory.HUE_RED;
+                    title = "Danger";
+                    break;
+            }
+
+            String hashtags = pin.getHashtags().toString();
+            String comments = pin.getComment();
+            String send = hashtags + "|" + comments;
+            //Log.d("snippet", send);
+
+            MapsFragment.map.addMarker(new MarkerOptions()
+                    .position(new LatLng(pin.getLocationX(), pin.getLocationY()))
+                    .title(title)
+                    .snippet(send)
+                    .icon(BitmapDescriptorFactory.defaultMarker(icon)));
+
+        }
+
         return false;
     }
 }
