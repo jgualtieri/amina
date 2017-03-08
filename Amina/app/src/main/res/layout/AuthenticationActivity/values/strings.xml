@@ -10,11 +10,20 @@
     <string name="card_view_date_text">Published on Jul 11, 2016</string>
     <string name="google_sign_in_prompt">Sign in with your Google account to use Amina.</string>
     <string name="what_s_your_status">What\'s your status?</string>
-    <string name="card_view_food_hygiene">Food Hygiene and Water Purity</string>
     <string name="welcome_continue_title">Continue</string>
     <string name="lets_start_by">Let\'s start by telling us how safe you feel.</string>
     <string name="card_view_date">Published on Jul 11, 2016</string>
     <string name="youtube" translatable="false">YouTube</string>
-    <string name="instructional_video">Instructional video featuring a real refugee family and graphics to advise how to prepare and store food, and ensure water for cooking and drinking is safe, when facilities are minimal or lacking.</string>
 
+    <string name="card_view_one_title">Food Hygiene and Water Purity</string>
+    <string name="card_view_one_description">Instructional video featuring a real refugee family and graphics to advise how to prepare and store food, and ensure water for cooking and drinking is safe, when facilities are minimal or lacking.</string>
+
+    <string name="card_view_two_title">Shelter Management</string>
+    <string name="card_view_two_description">Instructional video featuring a real refugee family and graphics to advise how to safely keep a home-made camp shelter warm, dry and clean.</string>
+
+    <string name="card_view_three_title">Pregnant Women's Health</string>
+    <string name="card_view_three_description">Mini-drama in which a small boy helps his pregnant mother to find ways to stay healthy.</string>
+
+    <string name="card_view_four_title">Children's Hygiene</string>
+    <string name="card_view_four_description">Instructional video featuring a real refugee family and graphics to advise how to help ensure children stay safe and healthy in a camp environment.</string>
 </resources>

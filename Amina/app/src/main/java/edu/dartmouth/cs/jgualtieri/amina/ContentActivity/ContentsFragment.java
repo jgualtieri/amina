@@ -68,23 +68,23 @@ public class ContentsFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        String cardTitle1 = "Food Hygiene and Water Purity";
-        String cardDescription1 = "Instructional video featuring a real refugee family and graphics to advise how to prepare and store food, and ensure water for cooking and drinking is safe, when facilities are minimal or lacking.";
+        String cardTitle1 = getString(R.string.card_view_one_title);
+        String cardDescription1 = getString(R.string.card_view_one_description);
         String cardImage1 = "thumbnail";
         CardObject cardObj1 = new CardObject(cardTitle1,cardDescription1,cardImage1);
 
-        String cardTitle2 = "Shelter Management";
-        String cardDescription2 = "Instructional video featuring a real refugee family and graphics to advise how to safely keep a home-made camp shelter warm, dry and clean.";
+        String cardTitle2 = getString(R.string.card_view_two_title);
+        String cardDescription2 = getString(R.string.card_view_two_description);
         String cardImage2 = "thumbnail2";
         CardObject cardObj2 = new CardObject(cardTitle2,cardDescription2,cardImage2);
 
-        String cardTitle3 = "Pregnant Women's Health";
-        String cardDescription3 = "Mini-drama in which a small boy helps his pregnant mother to find ways to stay healthy.";
+        String cardTitle3 = getString(R.string.card_view_three_title);
+        String cardDescription3 = getString(R.string.card_view_three_description);
         String cardImage3 = "thumbnail3";
         CardObject cardObj3 = new CardObject(cardTitle3,cardDescription3,cardImage3);
 
-        String cardTitle4 = "Children's Hygiene";
-        String cardDescription4 = "Instructional video featuring a real refugee family and graphics to advise how to help ensure children stay safe and healthy in a camp environment.";
+        String cardTitle4 = getString(R.string.card_view_four_title);
+        String cardDescription4 = getString(R.string.card_view_four_description);
         String cardImage4 = "thumbnail4";
         CardObject cardObj4 = new CardObject(cardTitle4,cardDescription4,cardImage4);
 
