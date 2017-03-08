@@ -51,13 +51,12 @@ public class GcmIntentService extends IntentService {
 
                 String rawMessage = extras.getString("message");
                 String[] messageSplit = rawMessage.split("/");
-                Log.d("asdfasdf", "Location: " + messageSplit[3] + "," + messageSplit[4]);
 
-                Log.d("asdfasdf", messageSplit[0]);
+                PinHashtagDBHelper dbHelper = new PinHashtagDBHelper(getApplicationContext());
+                dbHelper.open();
+
                 if (messageSplit[0].equals("Pin")){
                     if (!messageSplit[2].equals(preferences.getString("id", ""))){
-                        PinHashtagDBHelper dbHelper = new PinHashtagDBHelper(getApplicationContext());
-                        dbHelper.open();
 
                         Pin pin = new Pin();
                         pin.setHashId(messageSplit[1]);
@@ -78,7 +77,12 @@ public class GcmIntentService extends IntentService {
                         showToast("remote pin added: " + messageSplit[1]);
                     }
                 } else {
-
+                    Hashtag hashtagObject = new Hashtag();
+                    String[] associatedPins = messageSplit[2].split(",");
+                    hashtagObject.setValue(messageSplit[1]);
+                    hashtagObject.setAssociatedPins(associatedPins);
+                    dbHelper.addCloudHashtagToDatabase(hashtagObject);
+                    showToast("remote Hashtag added: " + messageSplit[1]);
                 }
             }
         }

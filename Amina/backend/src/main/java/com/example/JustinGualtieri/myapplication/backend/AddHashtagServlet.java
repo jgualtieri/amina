@@ -24,6 +24,10 @@ public class AddHashtagServlet extends HttpServlet {
 
         // Add it to the datastore
         boolean retVal = DatastoreHelper.addUpdateHashtag(hashtag);
+
+        // send message of id to be deleted to all devices
+        MessagingEndpoint msg = new MessagingEndpoint();
+        msg.sendMessage(hashtag.toString());
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException,

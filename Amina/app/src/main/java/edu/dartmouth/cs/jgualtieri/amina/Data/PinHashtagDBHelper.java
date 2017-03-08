@@ -37,6 +37,11 @@ public class PinHashtagDBHelper {
     private String[] hashtagsTableColumns = {Constants.HASHTAGS_COLUMN_ENTRY_ID,
                                              Constants.HASHTAGS_COLUMN_VALUE,
                                              Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS};
+
+    private String[] hashtagsCloudTableColumns = {Constants.HASHTAGS_CLOUD_COLUMN_ENTRY_ID,
+            Constants.HASHTAGS_CLOUD_COLUMN_VALUE,
+            Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS};
+
     private String[] pinsTableColumns = {Constants.PINS_COLUMN_ENTRY_ID,
             Constants.PINS_COLUMN_USER_ID,
             Constants.PINS_COLUMN_LOCATION_X,
@@ -173,6 +178,47 @@ public class PinHashtagDBHelper {
 
             cursor.close();
             return sqLiteDatabase.insert(Constants.TABLE_HASHTAGS, null, contentValues);
+        }
+    }
+
+    // Add a Hashtag entry to the database - return the id of the entry that has been added
+    // Associated pin is the entryId of the Pin object that the Hashtag corresponds to -
+    // used to maintain the relationship between the Hashtag and the Pin
+    public void addCloudHashtagToDatabase(Hashtag hashtag) {
+
+        // First, check if the Hashtag already exists
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT * FROM " + Constants.TABLE_CLOUD_HASHTAGS +
+                " WHERE TRIM(" + Constants.HASHTAGS_CLOUD_COLUMN_VALUE + ") = '" +
+                hashtag.getValue().trim() + "'", null);
+        cursor.moveToFirst();
+
+        // If the entry already exists, update it to include the new Pin association
+        if (cursor.getCount() > 0) {
+
+            Log.d(TAG, "Updating entry");
+
+            // Update the existing entry
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS, convertArrayToString(hashtag.getAssociatedPins()));
+            sqLiteDatabase.update(Constants.TABLE_CLOUD_HASHTAGS, contentValues,
+                    Constants.HASHTAGS_CLOUD_COLUMN_VALUE + " = " + hashtag.getValue(), null);
+
+            cursor.close();
+
+            // Else, create a new Hashtag entry
+        } else {
+
+            Log.d(TAG, "Creating entry");
+
+            String associatedPinsText = convertArrayToString(hashtag.getAssociatedPins());
+
+            // Create a new content values for the Hashtags
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(Constants.HASHTAGS_CLOUD_COLUMN_VALUE, hashtag.getValue());
+            contentValues.put(Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS, associatedPinsText);
+            cursor.close();
+
+            sqLiteDatabase.insert(Constants.TABLE_CLOUD_HASHTAGS, null, contentValues);
         }
     }
 

@@ -27,4 +27,8 @@ public class Hashtag {
         this.count = count;
         this.associatedPins = associatedPins;
     }
+
+    public String toString(){
+        return "Hashtag/" + value + "/" + associatedPins;
+    }
 }
