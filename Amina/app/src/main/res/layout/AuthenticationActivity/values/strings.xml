@@ -25,15 +25,15 @@
     <string name="card_view_two_title">Shelter Management</string>
     <string name="card_view_two_description">Instructional video featuring a real refugee family and graphics to advise how to safely keep a home-made camp shelter warm, dry and clean.</string>
 
-    <string name="card_view_three_title">Pregnant Women's Health</string>
+    <string name="card_view_three_title">Pregnant Women\'s Health</string>
     <string name="card_view_three_description">Mini-drama in which a small boy helps his pregnant mother to find ways to stay healthy.</string>
 
-    <string name="card_view_four_title">Children's Hygiene</string>
+    <string name="card_view_four_title">Children\'s Hygiene</string>
     <string name="card_view_four_description">Instructional video featuring a real refugee family and graphics to advise how to help ensure children stay safe and healthy in a camp environment.</string>
-
 
     <string name="status_safe">Safe</string>
     <string name="status_caution">Caution</string>
     <string name="status_danger">Danger</string>
+    <string name="info_window_comment_title">Comment: \n</string>
 
 </resources>

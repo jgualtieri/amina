@@ -312,6 +312,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                 title.setGravity(Gravity.CENTER);
                 title.setTypeface(null, Typeface.BOLD);
                 title.setText(marker.getTitle());
+                title.setTextSize(20);
                 switch (marker.getTitle()) {
                     case "Safe":
                         title.setTextColor(Color.GREEN);
@@ -342,7 +343,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                     Log.d("2: ", text[1]);
                     TextView comment = new TextView(context);
                     comment.setTextColor(Color.GRAY);
-                    String commentText = "Comment: \n" + text[1];
+                    String commentText = getString(R.string.info_window_comment_title) + text[1];
                     comment.setText(commentText);
                     comment.setGravity(Gravity.START);
                     info.addView(comment);
