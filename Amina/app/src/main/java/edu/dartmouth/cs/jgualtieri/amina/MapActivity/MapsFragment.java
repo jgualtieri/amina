@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,11 +22,13 @@ import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -42,6 +45,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.ParseException;
@@ -285,7 +289,50 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                Context context = getContext(); //or getActivity(), YourActivity.this, etc.
+
+                LinearLayout info = new LinearLayout(context);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(context);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                String[] text = marker.getSnippet().split("[|]");
+                Log.d("1: ", text[0]);
+                Log.d("2: ", text[1]);
+
+                TextView ht = new TextView(context);
+                ht.setTextColor(Color.RED);
+                ht.setText(text[0]);
+
+                TextView ct = new TextView(context);
+                ct.setTextColor(Color.GRAY);
+                ct.setText("Comment: \n" + text[1]);
+
+                info.addView(title);
+                info.addView(ht);
+                info.addView(ct);
+
+                return info;
+            }
+        });
     }
+    
 
     // create a new pin
     public void createPin(){
@@ -498,7 +545,6 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
         @Override
         protected List<Pin> doInBackground(String... params) {
 
-            // get FitnessEntryCreator to manipulate db
             PinHashtagDBHelper data = new PinHashtagDBHelper(context);
             data.open();
 
@@ -541,10 +587,20 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                         break;
                 }
 
+                String hashtags = "#water, #electricity, #fire #damage\n";
+                String comments = "Watch out for potholes!";
+
+                hashtags = pin.getHashtags().toString();
+                comments = pin.getComment();
+                String send = hashtags + "|" + comments;
+                //Log.d("snippet", send);
+
                 map.addMarker(new MarkerOptions()
                         .position(new LatLng(pin.getLocationX(), pin.getLocationY()))
                         .title(title)
+                        .snippet(send)
                         .icon(BitmapDescriptorFactory.defaultMarker(icon)));
+
             }
         }
     }
