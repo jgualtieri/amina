@@ -71,6 +71,7 @@ public class MapActivity extends AppCompatActivity
         TextView nav_user = (TextView)hView.findViewById(R.id.nameDisplayTextView);
         nav_user.setText(preferences.getString("name", ""));
         nav_user.setTextSize(22);
+        nav_user.setTypeface(Typeface.SANS_SERIF);
         nav_user.setTextColor(Color.WHITE);
 
         // create toolbar
