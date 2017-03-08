@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="Amina_relies_on">تعتمد Amina على التغذية المرتدة من المستخدمين جهدنا لتوفير المعلومات الحالية التي تحافظ على الجميع آمنة. ساعدونا عن طريق وضع علامة محيطك للحفاظ على المجتمع المحدثة.</string>
+    <string name="auth_welcome">مرحبا بكم في Amina</string>
+    <string name="card_view_date">نشر يوم 11 يوليو 2016</string>
+    <string name="card_view_date_text">نشر يوم 11 يوليو 2016</string>
+    <string name="card_view_food_hygiene">الغذاء النظافة والطهارة المياه</string>
+    <string name="connections">روابط</string>
+    <string name="google_sign_in_prompt">تسجيل الدخول باستخدام حساب في Google الخاص بك لاستخدام أمينة.</string>
+    <string name="help_us_help_you">ساعدونا في مساعدتك</string>
+    <string name="information">معلومات</string>
+    <string name="instructional_video">فيديو تعليمي يضم أسرة لاجئة الحقيقية والرسومات لتقديم المشورة كيفية إعداد وتخزين المواد الغذائية، وتأمين مياه لأغراض الطهي والشرب المأمونة ومرافق عندما ضئيلة أو منعدمة.</string>
+    <string name="lets_start_by">من فضلك قل لنا كيف كنت تشعر آمنة.</string>
+    <string name="pin_entry_content_1">تعليق</string>
+    <string name="pin_entry_label_1">سلامة</string>
+    <string name="pin_entry_label_2">الهاش</string>
+    <string name="pin_entry_label_3">تعليق</string>
+    <string name="welcome_continue_title">استمر</string>
+    <string name="what_s_your_status">ما هو وضعك؟</string>
+    <string name="world_view">رأي العالم</string>
+    <string name="welcome_description">يوفر Amina تعليمات وتوجيهات المنقذة للحياة عندما كنت في حاجة إليها أكثر من غيرها. اضغط على \"متابعة\" لبدء.</string>
+</resources>

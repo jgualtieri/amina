@@ -52,7 +52,7 @@
                     android:layout_marginTop="190dp"
                     android:maxLines="3"
                     android:paddingLeft="18dp"
-                    android:text="Food Hygiene and Water Purity"
+                    android:text="@string/card_view_food_hygiene"
                     android:textColor="#FFFFFF"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold" />
@@ -67,7 +67,7 @@
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
                     android:paddingTop="10dp"
-                    android:text="Published on Jul 11, 2016"
+                    android:text="@string/card_view_date"
                     android:textColor="#666"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
                 <TextView
@@ -79,7 +79,7 @@
                     android:paddingLeft="18dp"
                     android:paddingRight="18dp"
                     android:paddingTop="10dp"
-                    android:text="Instructional video featuring a real refugee family and graphics to advise how to prepare and store food, and ensure water for cooking and drinking is safe, when facilities are minimal or lacking."
+                    android:text="@string/instructional_video"
                     android:textColor="#BBBBBB"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 

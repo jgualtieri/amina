@@ -1,6 +1,20 @@
 <resources>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="world_view">World View</string>
+    <string name="connections">Connections</string>
+    <string name="information">Information</string>
+    <string name="createpin" translatable="false">CreatePin</string>
+    <string name="help_us_help_you">Help us help you</string>
+    <string name="Amina_relies_on">Amina relies on feedback from our users to provide current information that keeps everyone safe.\n\nHelp us by marking your surroundings to keep the community updated.</string>
+    <string name="card_view_date_text">Published on Jul 11, 2016</string>
+    <string name="google_sign_in_prompt">Sign in with your Google account to use Amina.</string>
+    <string name="what_s_your_status">What\'s your status?</string>
+    <string name="card_view_food_hygiene">Food Hygiene and Water Purity</string>
+    <string name="welcome_continue_title">Continue</string>
+    <string name="lets_start_by">Let\'s start by telling us how safe you feel.</string>
+    <string name="card_view_date">Published on Jul 11, 2016</string>
+    <string name="youtube" translatable="false">YouTube</string>
+    <string name="instructional_video">Instructional video featuring a real refugee family and graphics to advise how to prepare and store food, and ensure water for cooking and drinking is safe, when facilities are minimal or lacking.</string>
 
 </resources>

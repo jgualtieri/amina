@@ -51,7 +51,7 @@
             android:textSize="30sp"
             android:textColor="@color/white"
 
-            android:text="What's your status?"/>
+            android:text="@string/what_s_your_status"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:textSize="17sp"
             android:textColor="@color/white"
 
-            android:text="Let's start by telling us how safe you feel."/>
+            android:text="@string/lets_start_by"/>
 
 
         <RadioGroup

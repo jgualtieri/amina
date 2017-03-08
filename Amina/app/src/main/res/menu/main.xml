@@ -3,13 +3,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/worldView"
-            android:title="World View" />
+            android:title="@string/world_view" />
         <item
             android:id="@+id/connections"
-            android:title="Connections" />
+            android:title="@string/connections" />
 
         <item
             android:id="@+id/info"
-            android:title="Information" />
+            android:title="@string/information" />
     </group>
 </menu>

@@ -60,7 +60,7 @@
             android:id="@+id/welcomeDescription"/>
 
         <Button
-            android:text="Continue"
+            android:text="@string/welcome_continue_title"
             android:layout_below="@id/welcomeDescription"
             android:layout_marginTop="20sp"
             android:layout_centerHorizontal="true"

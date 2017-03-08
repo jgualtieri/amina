@@ -51,7 +51,7 @@
             android:id="@+id/welcomeLogo" />
 
         <TextView
-            android:text="Sign in with your Google account to use Amina."
+            android:text="@string/google_sign_in_prompt"
             android:textSize="20sp"
             android:typeface="sans"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"

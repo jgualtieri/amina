@@ -1,18 +1,18 @@
 <resources>
-    <string name="app_name">Amina</string>
-    <string name="title_activity_authentication">AuthenticationActivity</string>
-    <string name="title_activity_prompt">PromptActivity</string>
-    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="app_name" translatable="false">Amina</string>
+    <string name="title_activity_authentication" translatable="false">AuthenticationActivity</string>
+    <string name="title_activity_prompt" translatable="false">PromptActivity</string>
+    <string name="title_activity_welcome" translatable="false">WelcomeActivity</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
     <string name="pin_entry_label_1">Safety</string>
     <string name="pin_entry_label_2">Hashtags</string>
     <string name="pin_entry_label_3">Note</string>
     <string name="pin_entry_content_1">Note</string>
-    <string name="pin_entry_content_2">#water, #electricity, #etc</string>
-    <string name="pin_entry_content_3">e.g. Beware of potholes!</string>
+    <string name="pin_entry_content_2" translatable="false">#water, #electricity, #etc</string>
+    <string name="pin_entry_content_3" translatable="false">e.g. Beware of potholes!</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -20,13 +20,13 @@
     <string name="welcome_description">Amina provides life-saving instructions and guidance when you need it the most.
     Press \"Continue\" to get started.</string>
 
-    <string name="title_activity_maps">Map</string>
-    <string name="server_client_id">318663839137-6tcbf5nd3hjlflun4c5uv4k68sgop6s5.apps.googleusercontent.com </string>
-    <string name="title_activity_map">MapActivity</string>
-    <string name="title_activity_testing">testing</string>
-    <string name="title_activity_pin_entry">PinEntryActivity</string>
-    <string name="title_activity_content">ContentActivity</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="server_client_id" translatable="false">318663839137-6tcbf5nd3hjlflun4c5uv4k68sgop6s5.apps.googleusercontent.com </string>
+    <string name="title_activity_map" translatable="false">MapActivity</string>
+    <string name="title_activity_testing" translatable="false">testing</string>
+    <string name="title_activity_pin_entry" translatable="false">PinEntryActivity</string>
+    <string name="title_activity_content" translatable="false">ContentActivity</string>
 
-    <string name="map_api">AIzaSyCV8wULuPynnegxcHP6eqhSBjzMkgROcFs</string>
+    <string name="map_api" translatable="false">AIzaSyCV8wULuPynnegxcHP6eqhSBjzMkgROcFs</string>
 
 </resources>

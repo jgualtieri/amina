@@ -20,9 +20,8 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Help us help you"
+        android:text="@string/help_us_help_you"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/pinsImage"
         android:padding="16dp"
         android:paddingBottom="0dp"/>
 
@@ -30,10 +29,7 @@
         android:id="@+id/dialogText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Amina relies on feedback from our users to
-provide current information that keeps
-everyone safe.\n\nHelp us by marking your surroundings to
-keep the community updated."
+        android:text="@string/Amina_relies_on"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:padding="16dp"
         android:paddingTop="0dp"/>
