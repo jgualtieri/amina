@@ -309,10 +309,21 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
 
                 // Get the title (either Safe, Caution, or Danger)
                 TextView title = new TextView(context);
-                title.setTextColor(Color.BLACK);
                 title.setGravity(Gravity.CENTER);
                 title.setTypeface(null, Typeface.BOLD);
                 title.setText(marker.getTitle());
+                switch (marker.getTitle()) {
+                    case "Safe":
+                        title.setTextColor(Color.GREEN);
+                        break;
+                    case "Caution":
+                        title.setTextColor(Color.BLACK);
+                        break;
+                    case "Danger":
+                        title.setTextColor(Color.RED);
+                        break;
+                }
+
                 info.addView(title);
 
                 String[] text = marker.getSnippet().split("[|]");
@@ -322,7 +333,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                     if (!text[0].equals("[]")) {
                         Log.d("1: ", text[0]);
                         TextView hashtag = new TextView(context);
-                        hashtag.setTextColor(Color.RED);
+                        hashtag.setTextColor(Color.BLACK);
                         hashtag.setText(text[0]);
                         info.addView(hashtag);
                     }
@@ -333,6 +344,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                     comment.setTextColor(Color.GRAY);
                     String commentText = "Comment: \n" + text[1];
                     comment.setText(commentText);
+                    comment.setGravity(Gravity.START);
                     info.addView(comment);
                 }
 
@@ -581,15 +593,15 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                 switch (pin.getSafetyStatus()) {
                     case (1):
                         icon = BitmapDescriptorFactory.HUE_GREEN;
-                        title = "Safe";
+                        title = context.getString(R.string.status_safe);
                         break;
                     case (2):
                         icon = BitmapDescriptorFactory.HUE_YELLOW;
-                        title = "Caution";
+                        title = context.getString(R.string.status_caution);
                         break;
                     case (3):
                         icon = BitmapDescriptorFactory.HUE_RED;
-                        title = "Danger";
+                        title = context.getString(R.string.status_danger);
                         break;
                 }
 
