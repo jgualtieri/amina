@@ -19,4 +19,16 @@
     <string name="what_s_your_status">ما هو وضعك؟</string>
     <string name="world_view">رأي العالم</string>
     <string name="welcome_description">يوفر Amina تعليمات وتوجيهات المنقذة للحياة عندما كنت في حاجة إليها أكثر من غيرها. اضغط على \"متابعة\" لبدء.</string>
+    <string name="card_view_one_title">الغذاء النظافة والطهارة المياه</string>
+    <string name="card_view_one_description">فيديو تعليمي يضم أسرة لاجئة الحقيقية والرسومات لتقديم المشورة كيفية إعداد وتخزين المواد الغذائية، وتأمين مياه لأغراض الطهي والشرب المأمونة ومرافق عندما ضئيلة أو منعدمة.</string>
+    <string name="card_view_two_description">فيديو تعليمي يضم أسرة لاجئة الحقيقية والرسومات لتقديم المشورة كيفية الحفاظ على أمان مخيم الإيواء الصنع دافئة وجافة ونظيفة.</string>
+    <string name="card_view_two_title">إدارة المأوى</string>
+    <string name="card_view_three_description">مصغرة الدراما التي صبي صغير يساعد أمه الحامل لايجاد سبل للبقاء في صحة جيدة.</string>
+    <string name="card_view_three_title">صحة المرأة الحامل</string>
+    <string name="card_view_four_title">النظافة للأطفال</string>
+    <string name="card_view_four_description">فيديو تعليمي يضم أسرة لاجئة الحقيقية والرسومات لتقديم المشورة كيفية مساعدة الأطفال على البقاء ضمان آمنة وصحية في بيئة المخيم.</string>
+    <string name="status_danger">خطر</string>
+    <string name="status_caution">الحذر</string>
+    <string name="status_safe">آمنة</string>
+    <string name="info_window_comment_title">ملحوظة</string>
 </resources>
