@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="190dp"
                     android:maxLines="3"
-                    android:paddingLeft="18dp"
+                    android:paddingStart="18dp"
                     android:text="@string/card_view_food_hygiene"
                     android:textColor="#FFFFFF"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -88,13 +88,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxLines="3"
-                    android:paddingLeft="18dp"
+                    android:paddingStart="18dp"
                     android:text="YouTube"
                     android:textColor="#B1B1B1"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textStyle="bold"
                     android:layout_below="@+id/title"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     />
 
