@@ -10,6 +10,11 @@ public class Constants {
     static final String TABLE_HASHTAGS = "hashtags";
     static final String TABLE_PINS = "pins";
     static final String TABLE_CLOUD_PINS = "cloudPins";
+    static final String TABLE_CLOUD_HASHTAGS = "cloudHashtags";
+
+    static final String HASHTAGS_CLOUD_COLUMN_ENTRY_ID = "entryCloudId";
+    static final String HASHTAGS_CLOUD_COLUMN_VALUE = "valueCloud";
+    static final String HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS = "associatedPinsCloud";
 
     static final String HASHTAGS_COLUMN_ENTRY_ID = "entryId";
     static final String HASHTAGS_COLUMN_VALUE = "value";

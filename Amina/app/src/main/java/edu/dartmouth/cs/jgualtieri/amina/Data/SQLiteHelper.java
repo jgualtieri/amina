@@ -19,6 +19,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
             + Constants.HASHTAGS_COLUMN_VALUE + " text not null, "
             + Constants.HASHTAGS_COLUMN_ASSOCIATED_PINS + " text not null );";
 
+    private static final String HASHTAGS_CLOUD_TABLE_CREATE = "CREATE TABLE "
+            + Constants.TABLE_CLOUD_HASHTAGS
+            + " ( "
+            + Constants.HASHTAGS_CLOUD_COLUMN_ENTRY_ID + " integer primary key autoincrement, "
+            + Constants.HASHTAGS_CLOUD_COLUMN_VALUE + " text not null, "
+            + Constants.HASHTAGS_CLOUD_COLUMN_ASSOCIATED_PINS + " text not null );";
+
     private static final String PINS_TABLE_CREATE = "CREATE TABLE "
             + Constants.TABLE_PINS
             + "( "
@@ -54,6 +61,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         database.execSQL(HASHTAGS_TABLE_CREATE);
         database.execSQL(PINS_TABLE_CREATE);
         database.execSQL(PINS_CLOUD_TABLE_CREATE);
+        database.execSQL(HASHTAGS_CLOUD_TABLE_CREATE);
     }
 
     // Update the database
