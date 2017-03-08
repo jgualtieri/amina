@@ -25,12 +25,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentActivity;
+import edu.dartmouth.cs.jgualtieri.amina.ContentActivity.ContentFragment;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
 
 public class MapActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        MapsFragment.OnFragmentInteractionListener, SearchView.OnQueryTextListener {
+        MapsFragment.OnFragmentInteractionListener, SearchView.OnQueryTextListener, ContentFragment.OnFragmentInteractionListener {
 
     // shared preferences
     private SharedPreferences preferences;
@@ -128,12 +129,14 @@ public class MapActivity extends AppCompatActivity
 //                    new ResultsFragment()).commit();
         }
 
-        if (id == R.id.info) {
+        else if (id == R.id.info) {
 
             // replace container with MapsFragment
 
-            Intent intent = new Intent(this, ContentActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, ContentActivity.class);
+            //startActivity(intent);
+            fragmentManager.beginTransaction().replace(R.id.content_map,
+                    new ContentFragment()).commit();
 
         }
 
