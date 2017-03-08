@@ -256,7 +256,7 @@ public class MapActivity extends AppCompatActivity
                     .icon(BitmapDescriptorFactory.defaultMarker(icon)));
 
         }
-
+        data.close();
         return false;
     }
 }

@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapsFragment;
+
 /**
  * Created by azharhussain on 2/19/17.
  * Class provided by CS65 to receive message from server and delete corresponding entry
@@ -72,17 +74,21 @@ public class GcmIntentService extends IntentService {
                         Gson gson = new Gson();
                         ArrayList<String> pinHashtagArray = gson.fromJson(messageSplit[7], ArrayList.class);
                         pin.setHashtags(pinHashtagArray);
-
                         dbHelper.addCloudPinToDatabase(pin);
+
+                        dbHelper.updateMap();
                         showToast("remote pin added: " + messageSplit[1]);
                     }
                 } else {
-                    Hashtag hashtagObject = new Hashtag();
-                    String[] associatedPins = messageSplit[2].split(",");
-                    hashtagObject.setValue(messageSplit[1]);
-                    hashtagObject.setAssociatedPins(associatedPins);
-                    dbHelper.addCloudHashtagToDatabase(hashtagObject);
-                    showToast("remote Hashtag added: " + messageSplit[1]);
+                    if (!messageSplit[2].equals(preferences.getString("id", ""))) {
+                        Hashtag hashtagObject = new Hashtag();
+                        String[] associatedPins = messageSplit[2].split(",");
+                        hashtagObject.setValue(messageSplit[1]);
+                        hashtagObject.setAssociatedPins(associatedPins);
+                        Log.d("search", "broadcast triggered add");
+                        dbHelper.addCloudHashtagToDatabase(hashtagObject);
+                        showToast("remote Hashtag added: " + messageSplit[1]);
+                    }
                 }
             }
         }

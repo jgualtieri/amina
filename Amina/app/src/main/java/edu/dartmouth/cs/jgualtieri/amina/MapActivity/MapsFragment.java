@@ -539,7 +539,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
         super.onDestroyView();
     }
 
-    // The definition of our task class
+    // populate the mapView with all the pins
     public static class AsyncDb extends AsyncTask<String, Integer, List<Pin>> {
 
         protected void onPreExecute() {
@@ -568,6 +568,8 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
         @Override
         protected void onPostExecute(List<Pin> result) {
             super.onPostExecute(result);
+
+            map.clear();
 
             for (Pin pin : result) {
 

@@ -46,6 +46,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import edu.dartmouth.cs.jgualtieri.amina.Data.Constants;
@@ -56,6 +58,8 @@ import edu.dartmouth.cs.jgualtieri.amina.Data.SQLiteHelper;
 import edu.dartmouth.cs.jgualtieri.amina.Data.ServerUtilities;
 import edu.dartmouth.cs.jgualtieri.amina.MainActivity;
 import edu.dartmouth.cs.jgualtieri.amina.R;
+
+import static edu.dartmouth.cs.jgualtieri.amina.MapActivity.MapActivity.context;
 
 public class PinEntryActivity extends AppCompatActivity
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -75,7 +79,10 @@ public class PinEntryActivity extends AppCompatActivity
     double lastLocationX;
     double lastLocationY;
 
-    MultiAutoCompleteTextView hashTagTextView;
+    // autocomplete hashtags
+    public static String[] hashtags;
+
+    public static MultiAutoCompleteTextView hashTagTextView;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -85,8 +92,8 @@ public class PinEntryActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // get user permission to use location
-        requestPermission();
+        //populate hashtag autocomplete options
+        new populateHashtags().execute();
 
         // get safety radiogroup
         safetyGroup = (RadioGroup) findViewById(R.id.safetyRadioGroupPin);
@@ -95,14 +102,6 @@ public class PinEntryActivity extends AppCompatActivity
         safetyStatus = getIntent().getExtras().getInt("safetyStatus");
         setCheckedSafetyStatus(safetyStatus);
 
-        //TODO: This list should be populated from Hashtag db
-        final String[] hashtags = new String[] {
-                "#water", "#electricity", "#food", "#shelter", "#safe"
-        };
-
-        // create array adapter for autocomplete hashtag editText field
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, hashtags);
 
         // Create an instance of GoogleAPIClient.
         if (googleApiClient == null) {
@@ -114,7 +113,6 @@ public class PinEntryActivity extends AppCompatActivity
         }
 
         hashTagTextView = (MultiAutoCompleteTextView) findViewById(R.id.hashtagEditText);
-        hashTagTextView.setAdapter(adapter);
         hashTagTextView.setThreshold(1);
         hashTagTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
@@ -170,6 +168,7 @@ public class PinEntryActivity extends AppCompatActivity
 
                 //pin.setEntryId(pinEntryId);
                 long pinEntryId = dbHelper.addPinToDatabase(pin);
+                pin.setEntryId(pinEntryId);
 
                 // Parse out the hashtags from textView
                 ArrayList<Hashtag> hashtagList = new ArrayList<>();
@@ -179,7 +178,7 @@ public class PinEntryActivity extends AppCompatActivity
                     if (hashtagsString.charAt(hashtagsString.length() - 1) == ',') {
                         hashtagsString = hashtagsString.substring(0, hashtagsString.length() - 1);
                     }
-                    String[] hashtags = hashtagsString.split(",");
+                    hashtags = hashtagsString.split(",");
 
                     // Store all of the hashtags
                     for (String hashtag : hashtags) {
@@ -261,14 +260,6 @@ public class PinEntryActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public void requestPermission() {
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -373,6 +364,34 @@ public class PinEntryActivity extends AppCompatActivity
 
         protected ArrayList<Hashtag> getHashtags() {
             return hashtags;
+        }
+    }
+
+    // Async task to get all hashtags
+    public static class populateHashtags extends android.os.AsyncTask<Void, Void, Void> {
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            PinHashtagDBHelper data = new PinHashtagDBHelper(context);
+            data.open();
+
+            // return an array list of all entries
+            HashSet<String> hashtagsSet = data.getAllHashtags();
+            hashtags = hashtagsSet.toArray(new String[hashtagsSet.size()]);
+
+            data.close();
+            return null;
+        }
+
+        // Update the user with the progess
+        @Override
+        protected void onPostExecute(Void uploadResult) {
+
+            // create array adapter for autocomplete hashtag editText field
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.activity, android.R.layout.simple_dropdown_item_1line, hashtags);
+            hashTagTextView.setAdapter(adapter);
         }
     }
 }
