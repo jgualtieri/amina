@@ -3,6 +3,7 @@ package edu.dartmouth.cs.jgualtieri.amina.Data;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 /**
  * Created by azharhussain on 2/19/17.
@@ -45,47 +49,37 @@ public class GcmIntentService extends IntentService {
             // Since we're not using two way messaging, this is all we really to check for
             if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
 
-//                // get the id of the entry to be deleted
-//                int deleteId = Integer.parseInt(extras.getString("message"));
-//
-//                // get db and delete entry from it
-//                FitnessEntryCreator data = new FitnessEntryCreator(getApplicationContext());
-//                data.open();
-//                data.deleteEntry(deleteId);
-//                data.updateListAdapter();
-//                data.close();
+                String rawMessage = extras.getString("message");
+                String[] messageSplit = rawMessage.split("/");
+                Log.d("asdfasdf", "Location: " + messageSplit[3] + "," + messageSplit[4]);
 
-//                String rawMessage = String.valueOf(extras.get("message"));
-//                String[] messageSplit = rawMessage.split(",");
-//
-//                PinHashtagDBHelper dbHelper = new PinHashtagDBHelper(getApplicationContext());
-//                dbHelper.open();
-//
-//                if (messageSplit[0].equals("Pin")){
-//                    if (!messageSplit[2].equals(preferences.getString("id", ""))) {
-//
-//                        Pin pin = new Pin();
-//
-//                        pin.setEntryHashId(messageSplit[1]);
-//                        pin.setUserId(messageSplit[2]);
-//                        pin.setLocationX(Double.parseDouble(messageSplit[3]));
-//                        pin.setLocationY(Double.parseDouble(messageSplit[4]));
-//                        pin.setDateTime(Calendar.getInstance());
-//                        pin.setSafetyStatus(Integer.parseInt(messageSplit[5]));
-//                        pin.setComment(messageSplit[6]);
-//
-//                        dbHelper.addPinToDatabase(pin);
-//                        Log.d("asdf", "pin added to local mysql");
-//                    }
-//                } else {
-//                    String hash = messageSplit[2];
-//                    dbHelper.updateHashId()
-//                }
+                Log.d("asdfasdf", messageSplit[0]);
+                if (messageSplit[0].equals("Pin")){
+                    if (!messageSplit[2].equals(preferences.getString("id", ""))){
+                        PinHashtagDBHelper dbHelper = new PinHashtagDBHelper(getApplicationContext());
+                        dbHelper.open();
+
+                        Pin pin = new Pin();
+                        pin.setHashId(messageSplit[1]);
+                        pin.setUserId(messageSplit[2]);
+                        pin.setLocationX(Double.parseDouble(messageSplit[3]));
+                        pin.setLocationY(Double.parseDouble(messageSplit[4]));
+                        pin.setDateTime(Calendar.getInstance());
+                        pin.setSafetyStatus(Integer.parseInt(messageSplit[5]));
+                        pin.setComment(messageSplit[6]);
 
 
-                Log.d("asdfasdf", extras.getString("message"));
-                // show toast
-                //showToast("message recieved: " + extras.getString("message"));
+                        // How to retrieve your Java object back from the string
+                        Gson gson = new Gson();
+                        ArrayList<String> pinHashtagArray = gson.fromJson(messageSplit[7], ArrayList.class);
+                        pin.setHashtags(pinHashtagArray);
+
+                        dbHelper.addCloudPinToDatabase(pin);
+                        showToast("remote pin added: " + messageSplit[1]);
+                    }
+                } else {
+
+                }
             }
         }
         GcmBroadcastReceiver.completeWakefulIntent(intent);

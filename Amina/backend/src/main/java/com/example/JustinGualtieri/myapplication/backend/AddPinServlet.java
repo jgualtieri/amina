@@ -25,8 +25,9 @@ public class AddPinServlet extends HttpServlet {
         String dateTime = request.getParameter("dateTime");
         String safetyStatus = request.getParameter("safetyStatus");
         String comment = request.getParameter("comment");
+        String hashtag = request.getParameter("hashtag");
 
-        Pin pin = new Pin(entryId, userId, locationX, locationY, dateTime, safetyStatus, comment);
+        Pin pin = new Pin(entryId, userId, locationX, locationY, dateTime, safetyStatus, comment, hashtag);
 
         // Add it to the datastore
         boolean retVal = DatastoreHelper.addPin(pin);

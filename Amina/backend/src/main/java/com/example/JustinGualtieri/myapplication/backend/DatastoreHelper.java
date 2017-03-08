@@ -51,6 +51,7 @@ public class DatastoreHelper {
         entity.setProperty(Pin.FIELD_NAME_DATETIME, pin.dateTime);
         entity.setProperty(Pin.FIELD_NAME_SAFETY_STATUS, pin.safetyStatus);
         entity.setProperty(Pin.FIELD_NAME_COMMENT, pin.comment);
+        entity.setProperty(Pin.FIELD_NAME_HASHTAG, pin.hashtags);
 
         datastore.put(entity);
         return true;
@@ -130,7 +131,8 @@ public class DatastoreHelper {
                 (String) entity.getProperty(Pin.FIELD_NAME_LOCATION_Y),
                 (String) entity.getProperty(Pin.FIELD_NAME_DATETIME),
                 (String) entity.getProperty(Pin.FIELD_NAME_SAFETY_STATUS),
-                (String) entity.getProperty(Pin.FIELD_NAME_COMMENT)
+                (String) entity.getProperty(Pin.FIELD_NAME_COMMENT),
+                (String) entity.getProperty(Pin.FIELD_NAME_HASHTAG)
         );
     }
 

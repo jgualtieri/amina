@@ -46,6 +46,15 @@ public class PinHashtagDBHelper {
             Constants.PINS_COLUMN_COMMENT,
             Constants.PINS_COLUMN_HASHTAGS};
 
+    private String[] pinsCloudTableColumns = {Constants.PINS_COLUMN_ENTRY_ID,
+            Constants.PINS_COLUMN_USER_ID,
+            Constants.PINS_COLUMN_LOCATION_X,
+            Constants.PINS_COLUMN_LOCATION_Y,
+            Constants.PINS_COLUMN_DATE_TIME,
+            Constants.PINS_COLUMN_SAFETY,
+            Constants.PINS_COLUMN_COMMENT,
+            Constants.PINS_COLUMN_HASHTAGS};
+
     // Constructor
     public PinHashtagDBHelper(Context context) {
         sqLiteHelper = new SQLiteHelper(context);
@@ -85,6 +94,29 @@ public class PinHashtagDBHelper {
         contentValues.put(Constants.PINS_COLUMN_HASHTAGS, gsonLocationArray.toJson(pin.getHashtags()).getBytes());
 
         return sqLiteDatabase.insert(Constants.TABLE_PINS, null, contentValues);
+    }
+
+    // Add a pin entry to the database - return the id of the entry that has been added
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void addCloudPinToDatabase(Pin pin) {
+
+        // Format the date
+        SimpleDateFormat format = new SimpleDateFormat("H:mm:ss MMM d', 'yyyy");
+        String formattedDate = format.format(pin.getDateTime().getTime());
+
+        // Populate a ContentVales object with the info stored in the Pin
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_ENTRY_ID, pin.getHashId());
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_USER_ID, pin.getUserId());
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_LOCATION_X, pin.getLocationX());
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_LOCATION_Y, pin.getLocationY());
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_DATE_TIME, formattedDate);
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_SAFETY, pin.getSafetyStatus());
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_COMMENT, pin.getComment());
+        Gson gsonLocationArray = new Gson();
+        contentValues.put(Constants.PINS_CLOUD_COLUMN_HASHTAGS, gsonLocationArray.toJson(pin.getHashtags()).getBytes());
+
+        sqLiteDatabase.insert(Constants.TABLE_CLOUD_PINS, null, contentValues);
     }
 
     // Add a Hashtag entry to the database - return the id of the entry that has been added
@@ -144,6 +176,8 @@ public class PinHashtagDBHelper {
         }
     }
 
+
+
     // get all entries in the table
     public List<Pin> getAllEntries() {
         List<Pin> pins = new ArrayList<Pin>();
@@ -159,6 +193,20 @@ public class PinHashtagDBHelper {
         }
         // Make sure to close the cursor
         cursor.close();
+
+        Cursor cursorCloud = sqLiteDatabase.query(Constants.TABLE_CLOUD_PINS,
+                pinsCloudTableColumns, null, null, null, null, null);
+
+        cursorCloud.moveToFirst();
+        while (!cursorCloud.isAfterLast()) {
+            Pin pin = entryCursor(cursorCloud);
+            pins.add(pin);
+            cursorCloud.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursorCloud.close();
+
+
         return pins;
     }
 

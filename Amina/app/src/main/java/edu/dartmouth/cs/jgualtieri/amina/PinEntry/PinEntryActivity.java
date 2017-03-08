@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -313,6 +314,12 @@ public class PinEntryActivity extends AppCompatActivity
                 pinUpload.put("dateTime", pin.getDateTime().getTime().toString());
                 pinUpload.put("safetyStatus", String.valueOf(pin.getSafetyStatus()));
                 pinUpload.put("comment", String.valueOf(pin.getComment()));
+
+                // How to store JSON string
+                Gson gson = new Gson();
+                // This can be any object. Does not have to be an arraylist.
+                String json = gson.toJson(pin.getHashtags());
+                pinUpload.put("hashtag", json);
 
                 ServerUtilities.post(Constants.SERVER_ADDRESS + "/add_pin", pinUpload);
 

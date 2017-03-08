@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class Pin {
     private long entryId;
+    private String hashId;
     private String userId;
     private double locationX;
     private double locationY;
@@ -79,5 +80,13 @@ public class Pin {
 
     public void setHashtags(ArrayList<String> hashtags) {
         this.hashtags = hashtags;
+    }
+
+    public String getHashId() {
+        return hashId;
+    }
+
+    public void setHashId(String hashId) {
+        this.hashId = hashId;
     }
 }
