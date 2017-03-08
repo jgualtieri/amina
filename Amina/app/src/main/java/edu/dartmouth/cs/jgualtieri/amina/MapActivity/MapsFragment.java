@@ -336,6 +336,7 @@ public class MapsFragment extends Fragment implements Button.OnClickListener, On
                         TextView hashtag = new TextView(context);
                         hashtag.setTextColor(Color.BLACK);
                         hashtag.setText(text[0]);
+                        hashtag.setGravity(Gravity.CENTER);
                         info.addView(hashtag);
                     }
                 }
